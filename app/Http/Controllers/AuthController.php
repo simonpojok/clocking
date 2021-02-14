@@ -27,4 +27,27 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+    public function login(Request $request) {
+        $login_data = $request -> validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+
+        if(!auth() -> attempt($login_data)) {
+            return response([
+                'complete' => false,
+                'message' => 'Invalid Credentials'
+            ]);
+        }
+
+        $access_token = auth() -> user() -> createToke('authToken') -> accessToken;
+        return response([
+            'complete' => true,
+            'access_token' => $access_token,
+            'data' => [
+                'user' => auth() -> user()
+            ]
+        ]);
+    }
 }
