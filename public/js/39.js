@@ -1,0 +1,1 @@
+(self.webpackChunk=self.webpackChunk||[]).push([[39],{39:(e,n,l)=>{"use strict";l.r(n),l.d(n,{default:()=>t});const s={};const t=(0,l(900).Z)(s,(function(){var e=this,n=e.$createElement;return(e._self._c||n)("h1",[e._v("Admin Dash")])}),[],!1,null,null,null).exports}}]);

@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <input type="email" class="form-control" v-model="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <input type="password" class="form-control" v-model="password" id="password" placeholder="Password">
                 </div>
                 <button type="submit"  @click="handleSubmit" class="btn">Login to Clocking</button>
