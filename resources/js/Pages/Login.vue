@@ -4,18 +4,32 @@
             <h2 class="ml-auto mr-auto mb-5">Sign In</h2>
             <form>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input type="email" class="form-control" v-model="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" class="form-control" v-model="password" id="password" placeholder="Password">
                 </div>
-                <button type="submit" class="btn">Login to Clocking</button>
+                <button type="submit"  @click="handleSubmit" class="btn">Login to Clocking</button>
             </form>
         </div>
     </div>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        handleSubmit(event) {
+            event.preventDefault();
+            if(this.password.length > 0) {
+                axios.post('api/login', {})
+            }
+        }
+    }
 
 }
 </script>
