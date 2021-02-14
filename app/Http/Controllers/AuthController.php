@@ -26,7 +26,7 @@ class AuthController extends Controller
             'data' => [
                 'user' => $user
             ]
-        ]);
+        ], 201);
     }
 
     public function login(LoginRequest $request) {
@@ -40,7 +40,7 @@ class AuthController extends Controller
             return response([
                 'complete' => false,
                 'message' => 'Invalid Credentials'
-            ]);
+            ], 259);
         }
 
         $access_token = auth() -> user() -> createToken('authToken') -> accessToken;
@@ -50,7 +50,7 @@ class AuthController extends Controller
             'data' => [
                 'user' => auth() -> user()
             ]
-        ]);
+        ], 250);
     }
 
     public function logout(Request $request)

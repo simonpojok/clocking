@@ -1,6 +1,6 @@
 <template>
     <div class="form-container">
-        <div  class="card" style="width: 40%;">
+        <div  class="card" >
             <h2 class="ml-auto mr-auto mb-5">Sign In</h2>
             <form>
                 <div class="form-group">
@@ -26,7 +26,37 @@ export default {
         handleSubmit(event) {
             event.preventDefault();
             if(this.password.length > 0) {
-                axios.post('api/login', {})
+                axios.post('api/account/login', {
+                    email: this.email,
+                    password: this.password
+                }).then(response => {
+                    if(response.status === 250) {
+                        let user = response.data.data.user;
+                        let token = response.data.access_token;
+                        let is_admin = user.role === 'admin';
+                        console.log(token);
+
+                        localStorage.setItem('user', JSON.stringify(user));
+                        localStorage.setItem('jwt', token);
+
+                        if(localStorage.getItem('jwt') != null) {
+                            this.$emit('loggedIn');
+                            if(this.$route.params.nextUrl != null) {
+                                this.$router.push(this.$route.nextUrl);
+                            } else {
+                                if(is_admin) {
+                                    this.$router.push('dashboard');
+                                } else {
+                                    this.$router.push('home')
+                                }
+                            }
+                        }
+                    } else if (response.status === 259) {
+
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
             }
         }
     }
@@ -51,6 +81,7 @@ export default {
     .card {
         padding: 2.5%;
         background-color: #ebeff0;
+        width: 90%;
     }
 
     button {
