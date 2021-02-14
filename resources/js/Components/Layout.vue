@@ -9,6 +9,7 @@
             <li style="float:right"><a href="#about">Users</a></li>
             <li style="float:right"><a href="#about">Report</a></li>
         </ul>
+        <slot />
     </div>
 </template>
 <script>
