@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,11 +29,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request) {
-        $login_data = $request -> validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
+    public function login(LoginRequest $request) {
+
+        $login_data = [
+            'password' => $request -> password,
+            'email' => $request -> email
+        ];
 
         if(!auth() -> attempt($login_data)) {
             return response([

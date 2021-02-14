@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class RegistrationRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     public function authorize()
     {
@@ -17,23 +17,17 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required|min:8',
-            'role' => 'required'
+            'email' => 'email|required',
+            'password' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'A Name is required',
             'email.required' => 'A Email is required',
-            'email.unique:users' => 'This Email is already Used',
             'email.email' => 'Please Provide Valid Email',
             'password.required' => 'Please provide password',
-            'password.min' => 'Password Must be more than 8 characters',
-            'role.required' => 'User Role is requred',
         ];
     }
 
