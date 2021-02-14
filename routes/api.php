@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,5 @@ Route::prefix('/times') -> group(function () {
     Route::post('/time-in', [AttendanceController::class, 'time_in']);
     Route::post('/time-out', [AttendanceController::class, 'time_out']);
 });
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
