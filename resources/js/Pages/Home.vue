@@ -1,8 +1,9 @@
 <template>
-    <h1>Home</h1>
+    <layout></layout>
 </template>
 <script>
+import Layout from "../Components/Layout";
 export default {
-
+    components: {Layout}
 }
 </script>
