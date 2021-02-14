@@ -1,4 +1,4 @@
-# clocking-frontend
+# frontend
 
 ## Project setup
 ```
