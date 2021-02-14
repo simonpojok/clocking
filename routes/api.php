@@ -25,9 +25,11 @@ Route::prefix('/times') -> group(function () {
     Route::post('/time-in', [AttendanceController::class, 'time_in']);
     Route::post('/time-out', [AttendanceController::class, 'time_out']);
 });
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
+Route::prefix('/account') -> group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/logout', [AuthController::class, 'logout']);
+        Route::get('/user', [AuthController::class, 'user']);
+    });
 });

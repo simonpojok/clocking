@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
-        $validated_data = $request->validate([
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required|min:8',
-            'role' => 'required'
-        ]);
+    public function register(RegistrationRequest $request) {
 
-        $validated_data['password'] = bcrypt($request->password);
-        $user = User::create($validated_data);
-        $accessToken = $user->createToken('authToken') -> accessToken();
+        $user = new User;
+        $user -> password = bcrypt($request->password);
+        $user -> email = $request -> email;
+        $user -> name = $request -> name;
+        $user -> role = $request -> role;
+        $user ->save();
+
+        $accessToken = $user->createToken('authToken') -> accessToken;
         return response([
             'complete' => true,
             'message' => 'User Created Successfully',
@@ -41,7 +41,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $access_token = auth() -> user() -> createToke('authToken') -> accessToken;
+        $access_token = auth() -> user() -> createToken('authToken') -> accessToken;
         return response([
             'complete' => true,
             'access_token' => $access_token,
