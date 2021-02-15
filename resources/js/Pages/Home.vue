@@ -3,7 +3,7 @@
         <div class="main-container-content">
             <h2>{{ nowTime }} Hrs</h2>
             <h4 class="my-3">{{ date }}</h4>
-            <button class="btn" @click="time_in">Time In</button>
+            <button v-bind:class="{'btn':true, 'timed-in':get_status(), 'time': !get_status() }" @click="time_in">Time In</button>
         </div>
     </layout>
 </template>
@@ -26,15 +26,30 @@ export default {
         }
     },
     methods: {
+        get_status: function () {
+            let user = JSON.parse(localStorage.getItem('user'));
+            user.is_timed_in = true;
+            return user.is_timed_in;
+        },
         time_in: function () {
             let user = JSON.parse(localStorage.getItem('user'));
-            axios.post('api/times/time-in', {
-                user_id: user.id
-            }).then(response => {
-                console.log(response);
-            }).catch(error => {
-                console.log(error);
-            })
+            if(this.get_status()) {
+                axios.post('api/times/time-out', {
+                    user_id: user.id
+                }).then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    console.log(error);
+                })
+            } else {
+                axios.post('api/times/time-in', {
+                    user_id: user.id
+                }).then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
         },
         // timer function
         nowTimes(){
@@ -66,8 +81,15 @@ export default {
     }
 
     .btn {
-        background-color: #18ba9a;
         color: white;
         font-weight: bold;
+    }
+
+    .timed-in {
+        background-color: #ba3818;
+    }
+
+    .time {
+        background-color: #18ba9a;
     }
 </style>
