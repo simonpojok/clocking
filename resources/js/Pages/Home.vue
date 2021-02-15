@@ -45,7 +45,9 @@ export default {
                 axios.post('api/times/time-in', {
                     user_id: user.id
                 }).then(response => {
-                    console.log(response);
+                    if(response.status === 250) {
+                        console.log(response);
+                    }
                 }).catch(error => {
                     console.log(error);
                 })

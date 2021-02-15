@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TimeInRequest;
+use App\Http\Requests\TimeRequest;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class AttendanceController extends Controller
 
 
 
-    public function time_in(TimeInRequest $request) {
+    public function time_in(TimeRequest $request) {
         $user_id = $request -> user_id;
         $time = Carbon::now();
 
@@ -44,8 +44,8 @@ class AttendanceController extends Controller
         ], 260);
     }
 
-    public function time_out(Request $request) {
-        $user_id = $request -> attendance['user_id'];
+    public function time_out(TimeRequest $request) {
+        $user_id = $request -> user_id;
         $time = Carbon::now();
 
         $attendance = Attendance::where('user_id', '=', $user_id)

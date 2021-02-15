@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class TimeInRequest extends FormRequest
+class TimeRequest extends FormRequest
 {
     public function authorize()
     {
