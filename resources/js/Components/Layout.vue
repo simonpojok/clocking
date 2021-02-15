@@ -3,7 +3,7 @@
         <ul>
             <li class="ml-5 pl-5 mt-2 mb-2">
                 <h4 class="header">Clocking</h4>
-                <p class="company-name">info@tailanalytics.com [admin]</p>
+                <p class="company-name">{{ getUser().email }} [ {{ getUser().role }} ]</p>
             <li>
             <li style="float:right" class="mr-5 pr-5"><a href="#about">Logout</a></li>
             <li style="float:right"><a href="#about">Users</a></li>
@@ -13,7 +13,18 @@
     </div>
 </template>
 <script>
-export default {}
+export default {
+    methods: {
+        getUser: function () {
+            let user = JSON.parse(localStorage.getItem('user'))
+            return {
+                email: user.email,
+                role: user.role
+            }
+        },
+
+    }
+}
 </script>
 <style>
 .header {

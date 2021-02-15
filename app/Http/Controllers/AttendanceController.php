@@ -16,7 +16,7 @@ class AttendanceController extends Controller
 
 
     public function time_in(Request $request) {
-        $user_id = $request -> attendance['user_id'];
+        $user_id = $request -> user_id;
         $time = Carbon::now();
 
         $attendance = Attendance::where('user_id', '=', $user_id)
