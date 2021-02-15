@@ -30,18 +30,18 @@ class AttendanceController extends Controller
             $attendance -> time_in = $time -> toTimeString();
             $attendance -> date = $time -> toDateString();
             $attendance -> save();
-            return [
+            return response([
                 "complete" => true,
                 "message"=> "Clocked In Successfully",
                 "attendance" => $attendance
-            ];
+            ], 250);
         }
 //        return "Already Attended";
-        return [
+        return response([
             "complete" => false,
             "message" => "Already Clocked In",
             "attendance" => null
-        ];
+        ], 260);
     }
 
     public function time_out(Request $request) {
