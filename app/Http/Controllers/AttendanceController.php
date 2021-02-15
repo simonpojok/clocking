@@ -53,26 +53,26 @@ class AttendanceController extends Controller
             -> first();
 
         if($attendance == null) {
-            return [
+            return response([
                 "complete" => false,
                 "message" => "No Clock In Record Found",
                 "attendance" => null
-            ];
+            ], 260);
         }
 
         if($attendance -> time_out == null) {
             $attendance -> time_out = $time -> toTimeString();
             $attendance -> save();
-            return [
+            return response([
                 "complete" => true,
                 "message"=> "Clocked Out Successfully",
                 "attendance" => $attendance
-            ];
+            ], 250);
         }
-        return [
+        return response([
             "complete" => true,
             "message"=> "Clocked Out already",
             "attendance" => $attendance
-        ];
+        ], 240);
     }
 }
