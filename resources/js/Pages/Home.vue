@@ -28,7 +28,7 @@ export default {
     methods: {
         time_in: function () {
             let user = JSON.parse(localStorage.getItem('user'));
-            axios.post('/attendance/time-in', {
+            axios.post('api/times/time-in', {
                 user_id: user.id
             }).then(response => {
                 console.log(response);
