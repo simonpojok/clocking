@@ -68,17 +68,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleSubmit: function handleSubmit(even) {
-      console.log(this.user);
-      even.preventDefault(); // axios.post('/api/register', {
-      //     name: 'simon',
-      //     email: 'email',
-      //     password: 'password',
-      //     role: 'role'
-      // }).then(response => {
-      //
-      // }).catch(error => {
-      //
-      // })
+      even.preventDefault();
+      axios.post('/api/register', this.user).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     closeDialog: function closeDialog() {
       this.$emit('close');
@@ -206,7 +201,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/users').then(function (response) {
         _this.users = response.data;
-        console.log(_this.users);
       })["catch"](function (error) {
         console.log(error);
       });

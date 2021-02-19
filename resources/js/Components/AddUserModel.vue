@@ -56,18 +56,12 @@ export default {
     },
     methods: {
         handleSubmit: function (even) {
-            console.log(this.user);
             even.preventDefault();
-            // axios.post('/api/register', {
-            //     name: 'simon',
-            //     email: 'email',
-            //     password: 'password',
-            //     role: 'role'
-            // }).then(response => {
-            //
-            // }).catch(error => {
-            //
-            // })
+            axios.post('/api/register', this.user).then(response => {
+                console.log(response)
+            }).catch(error => {
+                console.log(error);
+            })
         },
         closeDialog: function () {
             this.$emit('close');
