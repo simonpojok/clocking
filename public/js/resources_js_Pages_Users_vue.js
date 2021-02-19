@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleSubmit: function handleSubmit(even) {
       even.preventDefault();
-      axios.post('api/account/login', {
+      axios.post('/api/account/login', {
         name: this.name,
         email: this.email,
         password: this.password,
@@ -225,8 +225,7 @@ __webpack_require__.r(__webpack_exports__);
       return '' + (d <= 9 ? '0' + d : d) + ' / ' + m + ' / ' + y;
     },
     addUser: function addUser() {
-      this.show_dialog = true;
-      var element = document.querySelector('#boday');
+      this.show_dialog = true; // let element = document.querySelector('#boday');
     },
     handleClose: function handleClose() {
       this.show_dialog = false;

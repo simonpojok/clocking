@@ -55,7 +55,7 @@ export default {
     methods: {
         handleSubmit: function (even) {
             even.preventDefault();
-            axios.post('api/account/login', {
+            axios.post('/api/account/register', {
                 name: this.name,
                 email: this.email,
                 password: this.password,
@@ -63,7 +63,7 @@ export default {
             }).then(response => {
                 console.log(response, "==>")
             }).catch(error => {
-                console.log(error, "-->");
+                console.log(error.error, "-->");
             })
         },
         closeDialog: function () {

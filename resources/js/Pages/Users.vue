@@ -72,7 +72,7 @@ export default {
         },
         addUser: function () {
             this.show_dialog = true;
-            let element = document.querySelector('#boday');
+            // let element = document.querySelector('#boday');
         },
         handleClose: function () {
             this.show_dialog = false;
