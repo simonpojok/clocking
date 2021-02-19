@@ -3,7 +3,9 @@
         <div class="main-container-content">
             <h2>{{ nowTime }} Hrs</h2>
             <h4 class="my-3">{{ date }}</h4>
-            <button v-bind:class="{'btn':true, 'timed-in':get_status(), 'time': !get_status() }" @click="time_in">Time In</button>
+            <button v-bind:class="{'btn':true, 'timed-in':get_status(), 'time': !get_status() }" @click="time_in">
+                {{ get_label() }}
+            </button>
         </div>
     </layout>
 </template>
@@ -30,6 +32,9 @@ export default {
             let user = JSON.parse(localStorage.getItem('user'));
             user.is_timed_in = true;
             return user.is_timed_in;
+        },
+        get_label: function () {
+            return this.get_status() !== true ? 'Time In' : 'Time Out'
         },
         time_in: function () {
             let user = JSON.parse(localStorage.getItem('user'));
