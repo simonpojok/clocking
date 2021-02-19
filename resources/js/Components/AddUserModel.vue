@@ -1,11 +1,16 @@
 <template>
     <div class="card dialog-card">
         <div class="card-body">
+            <div class="model-header">
+                <h2>Add User</h2>
+                <i class="fas fa-times"></i>
+            </div>
+            <hr style="margin-right: -20px; margin-left: -20px;">
             <form>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        <input type="text" class="form-control" id="name" placeholder="Full Name">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -76,5 +81,10 @@ export default {
         left: 20%;
         right: 20%;
         bottom: 20%;
+    }
+    .model-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
 </style>

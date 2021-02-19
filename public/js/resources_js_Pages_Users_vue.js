@@ -72,6 +72,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -244,7 +249,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 50%;\n    position: fixed;\n    top: 20%;\n    left: 20%;\n    right: 20%;\n    bottom: 20%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 50%;\n    position: fixed;\n    top: 20%;\n    left: 20%;\n    right: 20%;\n    bottom: 20%;\n}\n.model-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -675,25 +680,31 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card dialog-card" }, [
       _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "model-header" }, [
+          _c("h2", [_vm._v("Add User")]),
+          _vm._v(" "),
+          _c("i", { staticClass: "fas fa-times" })
+        ]),
+        _vm._v(" "),
+        _c("hr", {
+          staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
+        }),
+        _vm._v(" "),
         _c("form", [
-          _c("div", { staticClass: "form-group row" }, [
+          _c("div", { staticClass: "form-group" }, [
             _c(
               "label",
               {
                 staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputEmail3" }
+                attrs: { for: "name" }
               },
-              [_vm._v("Email")]
+              [_vm._v("Name:")]
             ),
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-10" }, [
               _c("input", {
                 staticClass: "form-control",
-                attrs: {
-                  type: "email",
-                  id: "inputEmail3",
-                  placeholder: "Email"
-                }
+                attrs: { type: "text", id: "name", placeholder: "Full Name" }
               })
             ])
           ]),
