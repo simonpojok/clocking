@@ -5,11 +5,11 @@
                 <h2>Users</h2>
                 <div class="card mr-5" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" style="color: black">
+                        <li class="list-group-item" style="color: black" v-bind:class="{'bg-primary text-light': isAdminMode }" v-on:click="getAdminTimes">
                             <h3>Admin</h3>
                             <p>info@gmail.com</p>
                         </li>
-                        <li class="list-group-item" style="color: black">
+                        <li class="list-group-item" style="color: black" v-bind:class="{'bg-primary text-light': isUserMode }" v-on:click="getUserTimes">
                             <h3>Trail Support</h3>
                             <p>support@gmail.com</p>
                         </li>
@@ -49,21 +49,34 @@ export default {
     components: {Layout},
     data: function () {
         return {
-            times: []
+            times: [],
+            isUserMode: false,
+            isAdminMode: true
         }
     },
     methods: {
-        getAllLogs: function () {
+        getAdminTimes: function () {
             axios.get('/api/attendance').then(response => {
+                this.isUserMode = false;
+                this.isAdminMode = true;
                 this.times = response.data;
-                console.log(this.times)
             }).catch(error => {
                 console.log(error)
+            })
+        },
+        getUserTimes: function () {
+            axios.get('/api/attendance/user-time').then(response => {
+                this.isUserMode = true;
+                this.isAdminMode = false;
+                this.times = response.data;
+                console.log(this.times);
+            }).catch(error => {
+                console.log(error);
             })
         }
     },
     mounted() {
-        this.getAllLogs()
+        this.getAdminTimes();
     }
 }
 </script>

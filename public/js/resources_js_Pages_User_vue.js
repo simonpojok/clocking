@@ -104,23 +104,38 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      times: []
+      times: [],
+      isUserMode: false,
+      isAdminMode: true
     };
   },
   methods: {
-    getAllLogs: function getAllLogs() {
+    getAdminTimes: function getAdminTimes() {
       var _this = this;
 
       axios.get('/api/attendance').then(function (response) {
+        _this.isUserMode = false;
+        _this.isAdminMode = true;
         _this.times = response.data;
-        console.log(_this.times);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getUserTimes: function getUserTimes() {
+      var _this2 = this;
+
+      axios.get('/api/attendance/user-time').then(function (response) {
+        _this2.isUserMode = true;
+        _this2.isAdminMode = false;
+        _this2.times = response.data;
+        console.log(_this2.times);
       })["catch"](function (error) {
         console.log(error);
       });
     }
   },
   mounted: function mounted() {
-    this.getAllLogs();
+    this.getAdminTimes();
   }
 });
 
@@ -514,7 +529,9 @@ var render = function() {
                 "li",
                 {
                   staticClass: "list-group-item",
-                  staticStyle: { color: "black" }
+                  class: { "bg-primary text-light": _vm.isAdminMode },
+                  staticStyle: { color: "black" },
+                  on: { click: _vm.getAdminTimes }
                 },
                 [
                   _c("h3", [_vm._v("Admin")]),
@@ -527,7 +544,9 @@ var render = function() {
                 "li",
                 {
                   staticClass: "list-group-item",
-                  staticStyle: { color: "black" }
+                  class: { "bg-primary text-light": _vm.isUserMode },
+                  staticStyle: { color: "black" },
+                  on: { click: _vm.getUserTimes }
                 },
                 [
                   _c("h3", [_vm._v("Trail Support")]),

@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/attendance', [AttendanceController::class, 'index']);
+Route::get('/attendance/user-time', [AttendanceController::class, 'userAttendance']);
 Route::prefix('/times') -> group(function () {
     Route::post('/time-in', [AttendanceController::class, 'time_in']);
     Route::post('/time-out', [AttendanceController::class, 'time_out']);

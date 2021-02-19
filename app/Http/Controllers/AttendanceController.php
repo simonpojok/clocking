@@ -14,6 +14,10 @@ class AttendanceController extends Controller
         return Attendance::orderBy('created_at', 'DESC') -> get();
     }
 
+    public function userAttendance() {
+        return Attendance::orderBy('created_at', 'DESC') -> get();
+    }
+
 
 
     public function time_in(TimeRequest $request) {
