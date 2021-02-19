@@ -61,6 +61,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -111,7 +137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.user-container {\n    background-color: #2d3748;\n    display: flex;\n    flex-direction: row;\n    align-content: space-between;\n    width: 100%;\n    height: 90vh;\n    padding: 5%;\n}\n.left {\n    background-color: #18ba9a;\n    width: 20%;\n    height: 100%;\n}\n.right {\n    background-color: #ba3818;\n    width: 80%;\n    height: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.user-container {\n    /*background-color: #2d3748;*/\n    display: flex;\n    flex-direction: row;\n    align-content: space-between;\n    width: 100%;\n    height: 90vh;\n    padding: 5%;\n}\n.left {\n    /*background-color: #18ba9a;*/\n    /*width: 20%;*/\n    height: 100%;\n}\n.right {\n    /*background-color: #ba3818;*/\n    width: 80%;\n    height: 100%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -446,9 +472,67 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("layout", [
     _c("div", { staticClass: "user-container" }, [
-      _c("div", { staticClass: "left" }),
+      _c("div", { staticClass: "left" }, [
+        _c("h2", [_vm._v("Users")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "card mr-5", staticStyle: { width: "18rem" } },
+          [
+            _c("ul", { staticClass: "list-group list-group-flush" }, [
+              _c(
+                "li",
+                {
+                  staticClass: "list-group-item",
+                  staticStyle: { color: "black" }
+                },
+                [
+                  _c("h3", [_vm._v("Admin")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("info@gmail.com")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass: "list-group-item",
+                  staticStyle: { color: "black" }
+                },
+                [
+                  _c("h3", [_vm._v("Trail Support")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("support@gmail.com")])
+                ]
+              )
+            ])
+          ]
+        )
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "right" })
+      _c("div", { staticClass: "right" }, [
+        _c("h2", [_vm._v("Log for Oct, 2016")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v("\n                    Featured\n                ")
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "list-group list-group-flush" }, [
+            _c("li", { staticClass: "list-group-item" }, [
+              _vm._v("Cras justo odio")
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _vm._v("Dapibus ac facilisis in")
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _vm._v("Vestibulum at eros")
+            ])
+          ])
+        ])
+      ])
     ])
   ])
 }
