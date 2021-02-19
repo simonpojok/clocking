@@ -23,6 +23,14 @@ const routes = [
             is_admin: true,
             requiresAuth: true
         }
+    },
+    {
+        path: '/user',
+        component: () => import('../Pages/User.vue'),
+        name: 'user',
+        meta: {
+            requiresAuth: true
+        }
     }
 ];
 

@@ -6,7 +6,9 @@
                 <p class="company-name">{{ getUser().email }} [ {{ getUser().role }} ]</p>
             <li>
             <li style="float:right" class="mr-5 pr-5"><a href="#about">Logout</a></li>
-            <li style="float:right"><a href="#about">Users</a></li>
+            <li style="float:right">
+                <router-link to="/user">Users</router-link>
+            </li>
             <li style="float:right"><a href="#about">Report</a></li>
         </ul>
         <slot />
