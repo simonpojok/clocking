@@ -7,9 +7,11 @@
             <li>
             <li style="float:right" class="mr-5 pr-5"><a href="#about">Logout</a></li>
             <li style="float:right">
-                <router-link to="/user">Users</router-link>
+                <router-link to="/users">Users</router-link>
             </li>
-            <li style="float:right"><a href="#about">Report</a></li>
+            <li style="float:right">
+                <router-link to="/report">Report</router-link>
+            </li>
         </ul>
         <slot />
     </div>

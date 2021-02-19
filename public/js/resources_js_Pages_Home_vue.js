@@ -27,6 +27,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     getUser: function getUser() {
@@ -447,11 +449,16 @@ var render = function() {
         _c(
           "li",
           { staticStyle: { float: "right" } },
-          [_c("router-link", { attrs: { to: "/user" } }, [_vm._v("Users")])],
+          [_c("router-link", { attrs: { to: "/users" } }, [_vm._v("Users")])],
           1
         ),
         _vm._v(" "),
-        _vm._m(1)
+        _c(
+          "li",
+          { staticStyle: { float: "right" } },
+          [_c("router-link", { attrs: { to: "/report" } }, [_vm._v("Report")])],
+          1
+        )
       ]),
       _vm._v(" "),
       _vm._t("default")
@@ -469,14 +476,6 @@ var staticRenderFns = [
       { staticClass: "mr-5 pr-5", staticStyle: { float: "right" } },
       [_c("a", { attrs: { href: "#about" } }, [_vm._v("Logout")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticStyle: { float: "right" } }, [
-      _c("a", { attrs: { href: "#about" } }, [_vm._v("Report")])
-    ])
   }
 ]
 render._withStripped = true
