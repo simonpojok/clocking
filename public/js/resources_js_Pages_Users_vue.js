@@ -63,7 +63,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleSubmit: function handleSubmit(even) {
       even.preventDefault();
-      console.log(even);
+      axios.post('/api/user/add', {}).then(function (response) {})["catch"](function (error) {});
     },
     closeDialog: function closeDialog() {
       this.$emit('close');

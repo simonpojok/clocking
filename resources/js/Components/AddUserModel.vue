@@ -51,7 +51,13 @@ export default {
     methods: {
         handleSubmit: function (even) {
             even.preventDefault();
-            console.log(even);
+            axios.post('/api/user/add', {
+
+            }).then(response => {
+
+            }).catch(error => {
+
+            })
         },
         closeDialog: function () {
             this.$emit('close');
