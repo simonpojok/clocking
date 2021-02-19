@@ -87,10 +87,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Components_Layout__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      times: []
+    };
+  },
+  methods: {
+    getAllLogs: function getAllLogs() {
+      var _this = this;
+
+      axios.get('/api/attendance').then(function (response) {
+        _this.times = response.data;
+        console.log(_this.times);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.getAllLogs();
   }
 });
 
@@ -137,7 +167,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.user-container {\n    /*background-color: #2d3748;*/\n    display: flex;\n    flex-direction: row;\n    align-content: space-between;\n    width: 100%;\n    height: 90vh;\n    padding: 5%;\n}\n.left {\n    /*background-color: #18ba9a;*/\n    /*width: 20%;*/\n    height: 100%;\n}\n.right {\n    /*background-color: #ba3818;*/\n    width: 80%;\n    height: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.user-container {\n    /*background-color: #2d3748;*/\n    display: flex;\n    flex-direction: row;\n    align-content: space-between;\n    width: 100%;\n    height: 90vh;\n    padding: 5%;\n}\n.left {\n    height: 100%;\n}\n.right {\n    width: 80%;\n    height: 100%;\n}\ntable td, table th {\n    border-top: none !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -514,22 +544,34 @@ var render = function() {
         _c("h2", [_vm._v("Log for Oct, 2016")]),
         _vm._v(" "),
         _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n                    Featured\n                ")
-          ]),
+          _c("div", { staticClass: "card-header pt-4" }),
           _vm._v(" "),
-          _c("ul", { staticClass: "list-group list-group-flush" }, [
-            _c("li", { staticClass: "list-group-item" }, [
-              _vm._v("Cras justo odio")
+          _c("table", { staticClass: "table table-borderless" }, [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Time In")]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Time Out")])
+              ])
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "list-group-item" }, [
-              _vm._v("Dapibus ac facilisis in")
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "list-group-item" }, [
-              _vm._v("Vestibulum at eros")
-            ])
+            _c(
+              "tbody",
+              _vm._l(_vm.times, function(time) {
+                return _c("tr", { key: time.id }, [
+                  _c("th", { attrs: { scope: "row" } }, [
+                    _vm._v(_vm._s(time.date))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(time.time_in))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(time.time_out))])
+                ])
+              }),
+              0
+            )
           ])
         ])
       ])
