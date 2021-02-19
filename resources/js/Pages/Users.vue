@@ -23,7 +23,7 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
                     <td>{{ formatDate(new Date(user.created_at)) }}</td>
-                    <td><button class="btn btn-danger">Delete</button></td>
+                    <td><button class="btn btn-danger" v-on:click="deleteUser(user.id)">Delete</button></td>
                 </tr>
                 </tbody>
             </table>

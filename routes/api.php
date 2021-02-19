@@ -37,4 +37,5 @@ Route::prefix('/account') -> group(function () {
 });
 Route::prefix('users') -> group(function () {
     Route::get('/', [UserController::class, 'index']);
+    Route::delete('/{id}', [UserController::class, 'delete']);
 });

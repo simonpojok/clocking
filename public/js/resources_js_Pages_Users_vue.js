@@ -554,9 +554,18 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", [
-                  _c("button", { staticClass: "btn btn-danger" }, [
-                    _vm._v("Delete")
-                  ])
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteUser(user.id)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
                 ])
               ])
             }),
