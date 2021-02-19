@@ -1,6 +1,10 @@
 <template>
-    <h1>How World</h1>
+    <layout></layout>
 </template>
 <script>
+import Layout from "../Components/Layout";
 
+export default {
+    components: {Layout},
+}
 </script>
