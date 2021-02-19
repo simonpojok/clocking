@@ -57,11 +57,19 @@ export default {
     methods: {
         handleSubmit: function (even) {
             even.preventDefault();
-            axios.post('/api/register', this.user).then(response => {
+            console.log("======================================================================")
+            axios.post('/api/account/register', {
+                name: "hello"
+            }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
                 console.log(response)
             }).catch(error => {
                 console.log(error);
             })
+            console.log("======================================================================")
         },
         closeDialog: function () {
             this.$emit('close');

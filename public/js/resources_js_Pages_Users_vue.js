@@ -69,11 +69,19 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleSubmit: function handleSubmit(even) {
       even.preventDefault();
-      axios.post('/api/register', this.user).then(function (response) {
+      console.log("======================================================================");
+      axios.post('/api/account/register', {
+        name: "hello"
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
         console.log(error);
       });
+      console.log("======================================================================");
     },
     closeDialog: function closeDialog() {
       this.$emit('close');
