@@ -54,29 +54,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -249,7 +226,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 50%;\n    position: fixed;\n    top: 20%;\n    left: 20%;\n    right: 20%;\n    bottom: 20%;\n}\n.model-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 40%;\n    position: fixed;\n    top: 15%;\n    left: 30%;\n    right: 30%;\n    /*bottom: 20%;*/\n}\n.model-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n.radio-container {\n    display: flex;\n    flex-direction: row;\n}\n.button-container {\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n    width: 100%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -701,157 +678,106 @@ var staticRenderFns = [
               [_vm._v("Name:")]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "text", id: "name", placeholder: "Full Name" }
-              })
-            ])
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "text", id: "name", placeholder: "Full Name" }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
+          _c("div", { staticClass: "form-group" }, [
             _c(
               "label",
               {
                 staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputPassword3" }
+                attrs: { for: "email" }
+              },
+              [_vm._v("Email")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "email", id: "email", placeholder: "Email" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "password" }
               },
               [_vm._v("Password")]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                type: "password",
+                id: "password",
+                placeholder: "Password"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "radio-container ml-3" }, [
+            _c("div", { staticClass: "form-check mr-5" }, [
               _c("input", {
-                staticClass: "form-control",
+                staticClass: "form-check-input",
                 attrs: {
-                  type: "password",
-                  id: "inputPassword3",
-                  placeholder: "Password"
+                  type: "radio",
+                  name: "admin",
+                  id: "admin",
+                  value: "admin"
                 }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("fieldset", { staticClass: "form-group" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("legend", { staticClass: "col-form-label col-sm-2 pt-0" }, [
-                _vm._v("Radios")
-              ]),
+              }),
               _vm._v(" "),
-              _c("div", { staticClass: "col-sm-10" }, [
-                _c("div", { staticClass: "form-check" }, [
-                  _c("input", {
-                    staticClass: "form-check-input",
-                    attrs: {
-                      type: "radio",
-                      name: "gridRadios",
-                      id: "gridRadios1",
-                      value: "option1",
-                      checked: ""
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "form-check-label",
-                      attrs: { for: "gridRadios1" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                First radio\n                            "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-check" }, [
-                  _c("input", {
-                    staticClass: "form-check-input",
-                    attrs: {
-                      type: "radio",
-                      name: "gridRadios",
-                      id: "gridRadios2",
-                      value: "option2"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "form-check-label",
-                      attrs: { for: "gridRadios2" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                Second radio\n                            "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-check disabled" }, [
-                  _c("input", {
-                    staticClass: "form-check-input",
-                    attrs: {
-                      type: "radio",
-                      name: "gridRadios",
-                      id: "gridRadios3",
-                      value: "option3",
-                      disabled: ""
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticClass: "form-check-label",
-                      attrs: { for: "gridRadios3" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                Third disabled radio\n                            "
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-sm-2" }, [_vm._v("Checkbox")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("div", { staticClass: "form-check" }, [
-                _c("input", {
-                  staticClass: "form-check-input",
-                  attrs: { type: "checkbox", id: "gridCheck1" }
-                }),
-                _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    staticClass: "form-check-label",
-                    attrs: { for: "gridCheck1" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            Example checkbox\n                        "
-                    )
-                  ]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-sm-10" }, [
               _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Sign in")]
+                "label",
+                { staticClass: "form-check-label", attrs: { for: "admin" } },
+                [_vm._v("Admin")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check" }, [
+              _c("input", {
+                staticClass: "form-check-input",
+                attrs: {
+                  type: "radio",
+                  name: "admin",
+                  id: "user",
+                  value: "user",
+                  checked: ""
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "form-check-label", attrs: { for: "user" } },
+                [_vm._v("User")]
               )
             ])
+          ]),
+          _vm._v(" "),
+          _c("hr", {
+            staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row mt-2 button-container" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-default mr-5",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+              [_vm._v("Sign in")]
+            )
           ])
         ])
       ])
