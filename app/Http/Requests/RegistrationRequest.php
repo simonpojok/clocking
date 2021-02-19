@@ -33,7 +33,7 @@ class RegistrationRequest extends FormRequest
             'email.email' => 'Please Provide Valid Email',
             'password.required' => 'Please provide password',
             'password.min' => 'Password Must be more than 8 characters',
-            'role.required' => 'User Role is requred',
+            'role.required' => 'User Role is required',
         ];
     }
 

@@ -9,16 +9,16 @@
             <form>
                 <div class="form-group">
                     <label for="name" class="col-sm-2 col-form-label">Name:</label>
-                    <input v-model="user.name" type="text" class="form-control" id="name" placeholder="Full Name">
+                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Full Name">
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <input  v-model="user.email" type="email" class="form-control" id="email" placeholder="Email">
+                    <input  v-model="email" type="email" class="form-control" id="email" placeholder="Email">
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <input v-model="user.password" type="password" class="form-control" id="password" placeholder="Password">
+                    <input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
                 </div>
                 <div class="radio-container ml-3">
                     <div class="form-check mr-5">
@@ -46,24 +46,25 @@ export default {
     data () {
         return {
             dialog: false,
-            user: {
-                name: '',
-                email: '',
-                password: '',
-                role: 'user'
-            }
+            email: '',
+            name: '',
+            password: '',
+            role: 'user'
         }
     },
     methods: {
         handleSubmit: function (even) {
             even.preventDefault();
-            console.log("======================================================================")
-            axios.post('api/account/register', this.user).then(response => {
+            axios.post('api/account/login', {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                role: this.role
+            }).then(response => {
                 console.log(response, "==>")
             }).catch(error => {
                 console.log(error, "-->");
             })
-            console.log("======================================================================")
         },
         closeDialog: function () {
             this.$emit('close');

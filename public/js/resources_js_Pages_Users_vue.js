@@ -58,24 +58,25 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      user: {
-        name: '',
-        email: '',
-        password: '',
-        role: 'user'
-      }
+      email: '',
+      name: '',
+      password: '',
+      role: 'user'
     };
   },
   methods: {
     handleSubmit: function handleSubmit(even) {
       even.preventDefault();
-      console.log("======================================================================");
-      axios.post('api/account/register', this.user).then(function (response) {
+      axios.post('api/account/login', {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        role: this.role
+      }).then(function (response) {
         console.log(response, "==>");
       })["catch"](function (error) {
         console.log(error, "-->");
       });
-      console.log("======================================================================");
     },
     closeDialog: function closeDialog() {
       this.$emit('close');
@@ -704,19 +705,19 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.user.name,
-                expression: "user.name"
+                value: _vm.name,
+                expression: "name"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "text", id: "name", placeholder: "Full Name" },
-            domProps: { value: _vm.user.name },
+            domProps: { value: _vm.name },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.user, "name", $event.target.value)
+                _vm.name = $event.target.value
               }
             }
           })
@@ -734,19 +735,19 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.user.email,
-                expression: "user.email"
+                value: _vm.email,
+                expression: "email"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "email", id: "email", placeholder: "Email" },
-            domProps: { value: _vm.user.email },
+            domProps: { value: _vm.email },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.user, "email", $event.target.value)
+                _vm.email = $event.target.value
               }
             }
           })
@@ -767,8 +768,8 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.user.password,
-                expression: "user.password"
+                value: _vm.password,
+                expression: "password"
               }
             ],
             staticClass: "form-control",
@@ -777,13 +778,13 @@ var render = function() {
               id: "password",
               placeholder: "Password"
             },
-            domProps: { value: _vm.user.password },
+            domProps: { value: _vm.password },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.user, "password", $event.target.value)
+                _vm.password = $event.target.value
               }
             }
           })

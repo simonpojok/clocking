@@ -25,11 +25,13 @@ export default {
     methods: {
         handleSubmit(event) {
             event.preventDefault();
+            console.log("clocking");
             if(this.password.length > 0) {
                 axios.post('api/account/login', {
                     email: this.email,
                     password: this.password
                 }).then(response => {
+                    console.log(response);
                     if(response.status === 250) {
                         let user = response.data.data.user;
                         let token = response.data.access_token;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,14 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function createUser() {
-
+    public function createUser(RegistrationRequest $request) {
+        $user = new User;
+        $user -> password = bcrypt($request->password);
+        $user -> email = $request -> email;
+        $user -> name = $request -> name;
+        $user -> role = $request -> role;
+        $user ->save();
+        return "Done";
     }
 
     public function delete($id) {

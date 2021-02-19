@@ -39,12 +39,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       event.preventDefault();
+      console.log("clocking");
 
       if (this.password.length > 0) {
         axios.post('api/account/login', {
           email: this.email,
           password: this.password
         }).then(function (response) {
+          console.log(response);
+
           if (response.status === 250) {
             var user = response.data.data.user;
             var token = response.data.access_token;
