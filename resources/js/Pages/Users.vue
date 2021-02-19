@@ -1,40 +1,45 @@
 <template>
-    <layout>
-        <div class="users-page-container mr-5 ml-5 pl-5 pr-5 mt-3">
-            <div class="users-header">
-                <h2>Users</h2>
-                <button class="btn btn-add"><i class="fas fa-plus mr-3"></i>Add User</button>
+    <div>
+        <add-user-model />
+        <layout>
+            <div class="users-page-container mr-5 ml-5 pl-5 pr-5 mt-3">
+                <div class="users-header">
+                    <h2>Users</h2>
+                    <button class="btn btn-add" v-on:click="addUser"><i class="fas fa-plus mr-3"></i>Add User</button>
+                </div>
+                <table class="table mt-2">
+                    <thead class="bg-primary text-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="user in users">
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ formatDate(new Date(user.created_at)) }}</td>
+                        <td><button class="btn btn-danger" v-on:click="deleteUser(user.id)">Delete</button></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table mt-2">
-                <thead class="bg-primary text-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="user in users">
-                    <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.role }}</td>
-                    <td>{{ formatDate(new Date(user.created_at)) }}</td>
-                    <td><button class="btn btn-danger" v-on:click="deleteUser(user.id)">Delete</button></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </layout>
+        </layout>
+    </div>
 </template>
 <script>
 import Layout from "../Components/Layout";
+import AddUserModel from "../Components/AddUserModel";
+import Vue from "vue";
 // moment().format('YYYY-MM-DD');
 export default {
-    components: {Layout},
+    components: {AddUserModel, Layout},
     data: function () {
         return {
             users: []
@@ -64,6 +69,10 @@ export default {
             const m = strArray[date.getMonth()];
             const y = date.getFullYear();
             return '' + (d <= 9 ? '0' + d : d) + ' / ' + m + ' / ' + y;
+        },
+        addUser: function () {
+            Vue.component('modal', AddUserModel)
+            console.log("show dialog");
         }
     },
     mounted() {
