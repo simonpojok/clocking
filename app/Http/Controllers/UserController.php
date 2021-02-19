@@ -11,6 +11,10 @@ class UserController extends Controller
         return User::all();
     }
 
+    public function createUser() {
+
+    }
+
     public function delete($id) {
         $user = User::find($id);
         if($user == null) {

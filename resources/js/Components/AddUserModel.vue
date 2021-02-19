@@ -9,24 +9,24 @@
             <form method="post" v-on:submit="handleSubmit">
                 <div class="form-group">
                     <label for="name" class="col-sm-2 col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" placeholder="Full Name">
+                    <input v-model="user.name" type="text" class="form-control" id="name" placeholder="Full Name">
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email">
+                    <input  v-model="user.email" type="email" class="form-control" id="email" placeholder="Email">
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input v-model="user.password" type="password" class="form-control" id="password" placeholder="Password">
                 </div>
                 <div class="radio-container ml-3">
                     <div class="form-check mr-5">
-                        <input class="form-check-input" type="radio" name="admin" id="admin" value="admin">
+                        <input class="form-check-input" type="radio" name="admin" id="admin" value="admin" v-on:click="setUserIsAdmin">
                         <label class="form-check-label" for="admin">Admin</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="admin" id="user" value="user" checked>
+                        <input class="form-check-input" type="radio" name="admin" id="user" value="user" checked v-on:click="setUserIsUser">
                         <label class="form-check-label" for="user">User</label>
                     </div>
                 </div>
@@ -45,22 +45,38 @@
 export default {
     data () {
         return {
-            dialog: false
+            dialog: false,
+            user: {
+                name: '',
+                email: '',
+                password: '',
+                role: 'user'
+            }
         }
     },
     methods: {
         handleSubmit: function (even) {
+            console.log(this.user);
             even.preventDefault();
-            axios.post('/api/user/add', {
-
-            }).then(response => {
-
-            }).catch(error => {
-
-            })
+            // axios.post('/api/register', {
+            //     name: 'simon',
+            //     email: 'email',
+            //     password: 'password',
+            //     role: 'role'
+            // }).then(response => {
+            //
+            // }).catch(error => {
+            //
+            // })
         },
         closeDialog: function () {
             this.$emit('close');
+        },
+        setUserIsAdmin: function () {
+            this.user.role = 'admin';
+        },
+        setUserIsUser: function () {
+            this.user.role = 'user';
         }
     }
 }

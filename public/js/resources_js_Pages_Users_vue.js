@@ -57,16 +57,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      dialog: false
+      dialog: false,
+      user: {
+        name: '',
+        email: '',
+        password: '',
+        role: 'user'
+      }
     };
   },
   methods: {
     handleSubmit: function handleSubmit(even) {
-      even.preventDefault();
-      axios.post('/api/user/add', {}).then(function (response) {})["catch"](function (error) {});
+      console.log(this.user);
+      even.preventDefault(); // axios.post('/api/register', {
+      //     name: 'simon',
+      //     email: 'email',
+      //     password: 'password',
+      //     role: 'role'
+      // }).then(response => {
+      //
+      // }).catch(error => {
+      //
+      // })
     },
     closeDialog: function closeDialog() {
       this.$emit('close');
+    },
+    setUserIsAdmin: function setUserIsAdmin() {
+      this.user.role = 'admin';
+    },
+    setUserIsUser: function setUserIsUser() {
+      this.user.role = 'user';
     }
   }
 });
@@ -678,13 +699,149 @@ var render = function() {
         "form",
         { attrs: { method: "post" }, on: { submit: _vm.handleSubmit } },
         [
-          _vm._m(0),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "name" }
+              },
+              [_vm._v("Name:")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.name,
+                  expression: "user.name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "name", placeholder: "Full Name" },
+              domProps: { value: _vm.user.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.user, "name", $event.target.value)
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
-          _vm._m(1),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "email" }
+              },
+              [_vm._v("Email")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.email,
+                  expression: "user.email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "email", id: "email", placeholder: "Email" },
+              domProps: { value: _vm.user.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.user, "email", $event.target.value)
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
-          _vm._m(2),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "password" }
+              },
+              [_vm._v("Password")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.password,
+                  expression: "user.password"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "password",
+                id: "password",
+                placeholder: "Password"
+              },
+              domProps: { value: _vm.user.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.user, "password", $event.target.value)
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
-          _vm._m(3),
+          _c("div", { staticClass: "radio-container ml-3" }, [
+            _c("div", { staticClass: "form-check mr-5" }, [
+              _c("input", {
+                staticClass: "form-check-input",
+                attrs: {
+                  type: "radio",
+                  name: "admin",
+                  id: "admin",
+                  value: "admin"
+                },
+                on: { click: _vm.setUserIsAdmin }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "form-check-label", attrs: { for: "admin" } },
+                [_vm._v("Admin")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check" }, [
+              _c("input", {
+                staticClass: "form-check-input",
+                attrs: {
+                  type: "radio",
+                  name: "admin",
+                  id: "user",
+                  value: "user",
+                  checked: ""
+                },
+                on: { click: _vm.setUserIsUser }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "form-check-label", attrs: { for: "user" } },
+                [_vm._v("User")]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c("hr", {
             staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
@@ -701,7 +858,7 @@ var render = function() {
               [_vm._v("Cancel")]
             ),
             _vm._v(" "),
-            _vm._m(4)
+            _vm._m(0)
           ])
         ]
       )
@@ -709,95 +866,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-2 col-form-label", attrs: { for: "name" } },
-        [_vm._v("Name:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", id: "name", placeholder: "Full Name" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-2 col-form-label", attrs: { for: "email" } },
-        [_vm._v("Email")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "email", id: "email", placeholder: "Email" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-2 col-form-label", attrs: { for: "password" } },
-        [_vm._v("Password")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "password", id: "password", placeholder: "Password" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "radio-container ml-3" }, [
-      _c("div", { staticClass: "form-check mr-5" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: { type: "radio", name: "admin", id: "admin", value: "admin" }
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "admin" } },
-          [_vm._v("Admin")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-check" }, [
-        _c("input", {
-          staticClass: "form-check-input",
-          attrs: {
-            type: "radio",
-            name: "admin",
-            id: "user",
-            value: "user",
-            checked: ""
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "form-check-label", attrs: { for: "user" } },
-          [_vm._v("User")]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
