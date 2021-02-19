@@ -1,7 +1,7 @@
 <template>
     <div>
-        <add-user-model />
-        <layout>
+        <add-user-model @close="handleClose" v-if="show_dialog" v-bind:class="{'block': show_dialog }"/>
+        <layout v-bind:class="{'unblock': !show_dialog}" id="boday">
             <div class="users-page-container mr-5 ml-5 pl-5 pr-5 mt-3">
                 <div class="users-header">
                     <h2>Users</h2>
@@ -42,7 +42,8 @@ export default {
     components: {AddUserModel, Layout},
     data: function () {
         return {
-            users: []
+            users: [],
+            show_dialog: false
         }
     },
     methods: {
@@ -71,9 +72,14 @@ export default {
             return '' + (d <= 9 ? '0' + d : d) + ' / ' + m + ' / ' + y;
         },
         addUser: function () {
-            Vue.component('modal', AddUserModel)
-            console.log("show dialog");
-        }
+            this.show_dialog = true;
+            let element = document.querySelector('#boday');
+        },
+        handleClose: function () {
+            this.show_dialog = false;
+            let element = document.querySelector('#boday');
+            element.enable = true;
+        },
     },
     mounted() {
         this.getUsers();

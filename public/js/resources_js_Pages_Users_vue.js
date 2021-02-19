@@ -59,6 +59,15 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false
     };
+  },
+  methods: {
+    handleSubmit: function handleSubmit(even) {
+      even.preventDefault();
+      console.log(even);
+    },
+    closeDialog: function closeDialog() {
+      this.$emit('close');
+    }
   }
 });
 
@@ -120,7 +129,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Components_Layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Components/Layout */ "./resources/js/Components/Layout.vue");
 /* harmony import */ var _Components_AddUserModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/AddUserModel */ "./resources/js/Components/AddUserModel.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 //
 //
 //
@@ -167,7 +175,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      users: []
+      users: [],
+      show_dialog: false
     };
   },
   methods: {
@@ -198,8 +207,13 @@ __webpack_require__.r(__webpack_exports__);
       return '' + (d <= 9 ? '0' + d : d) + ' / ' + m + ' / ' + y;
     },
     addUser: function addUser() {
-      vue__WEBPACK_IMPORTED_MODULE_2__.default.component('modal', _Components_AddUserModel__WEBPACK_IMPORTED_MODULE_1__.default);
-      console.log("show dialog");
+      this.show_dialog = true;
+      var element = document.querySelector('#boday');
+    },
+    handleClose: function handleClose() {
+      this.show_dialog = false;
+      var element = document.querySelector('#boday');
+      element.enable = true;
     }
   },
   mounted: function mounted() {
@@ -648,116 +662,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card dialog-card" }, [
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "model-header" }, [
-          _c("h2", [_vm._v("Add User")]),
-          _vm._v(" "),
-          _c("i", { staticClass: "fas fa-times" })
-        ]),
+  return _c("div", { staticClass: "card dialog-card" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "model-header" }, [
+        _c("h2", [_vm._v("Add User")]),
         _vm._v(" "),
-        _c("hr", {
-          staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
-        }),
-        _vm._v(" "),
-        _c("form", [
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "name" }
-              },
-              [_vm._v("Name:")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "text", id: "name", placeholder: "Full Name" }
-            })
-          ]),
+        _c("i", { staticClass: "fas fa-times", on: { click: _vm.closeDialog } })
+      ]),
+      _vm._v(" "),
+      _c("hr", {
+        staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
+      }),
+      _vm._v(" "),
+      _c(
+        "form",
+        { attrs: { method: "post" }, on: { submit: _vm.handleSubmit } },
+        [
+          _vm._m(0),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "email" }
-              },
-              [_vm._v("Email")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { type: "email", id: "email", placeholder: "Email" }
-            })
-          ]),
+          _vm._m(1),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "password" }
-              },
-              [_vm._v("Password")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                type: "password",
-                id: "password",
-                placeholder: "Password"
-              }
-            })
-          ]),
+          _vm._m(2),
           _vm._v(" "),
-          _c("div", { staticClass: "radio-container ml-3" }, [
-            _c("div", { staticClass: "form-check mr-5" }, [
-              _c("input", {
-                staticClass: "form-check-input",
-                attrs: {
-                  type: "radio",
-                  name: "admin",
-                  id: "admin",
-                  value: "admin"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                { staticClass: "form-check-label", attrs: { for: "admin" } },
-                [_vm._v("Admin")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-check" }, [
-              _c("input", {
-                staticClass: "form-check-input",
-                attrs: {
-                  type: "radio",
-                  name: "admin",
-                  id: "user",
-                  value: "user",
-                  checked: ""
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                { staticClass: "form-check-label", attrs: { for: "user" } },
-                [_vm._v("User")]
-              )
-            ])
-          ]),
+          _vm._m(3),
           _vm._v(" "),
           _c("hr", {
             staticStyle: { "margin-right": "-20px", "margin-left": "-20px" }
@@ -768,20 +695,118 @@ var staticRenderFns = [
               "button",
               {
                 staticClass: "btn btn-default mr-5",
-                attrs: { type: "submit" }
+                attrs: { type: "button" },
+                on: { click: _vm.closeDialog }
               },
               [_vm._v("Cancel")]
             ),
             _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Sign in")]
-            )
+            _vm._m(4)
           ])
-        ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "label",
+        { staticClass: "col-sm-2 col-form-label", attrs: { for: "name" } },
+        [_vm._v("Name:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", id: "name", placeholder: "Full Name" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "label",
+        { staticClass: "col-sm-2 col-form-label", attrs: { for: "email" } },
+        [_vm._v("Email")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "email", id: "email", placeholder: "Email" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "label",
+        { staticClass: "col-sm-2 col-form-label", attrs: { for: "password" } },
+        [_vm._v("Password")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "password", id: "password", placeholder: "Password" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "radio-container ml-3" }, [
+      _c("div", { staticClass: "form-check mr-5" }, [
+        _c("input", {
+          staticClass: "form-check-input",
+          attrs: { type: "radio", name: "admin", id: "admin", value: "admin" }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "admin" } },
+          [_vm._v("Admin")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("input", {
+          staticClass: "form-check-input",
+          attrs: {
+            type: "radio",
+            name: "admin",
+            id: "user",
+            value: "user",
+            checked: ""
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "label",
+          { staticClass: "form-check-label", attrs: { for: "user" } },
+          [_vm._v("User")]
+        )
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-add", attrs: { type: "submit" } },
+      [_c("i", { staticClass: "fas fa-plus mr-3" }), _vm._v("Add User")]
+    )
   }
 ]
 render._withStripped = true
@@ -882,83 +907,94 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("add-user-model"),
+      _vm.show_dialog
+        ? _c("add-user-model", {
+            class: { block: _vm.show_dialog },
+            on: { close: _vm.handleClose }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("layout", [
-        _c(
-          "div",
-          { staticClass: "users-page-container mr-5 ml-5 pl-5 pr-5 mt-3" },
-          [
-            _c("div", { staticClass: "users-header" }, [
-              _c("h2", [_vm._v("Users")]),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-add", on: { click: _vm.addUser } },
-                [
-                  _c("i", { staticClass: "fas fa-plus mr-3" }),
-                  _vm._v("Add User")
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("table", { staticClass: "table mt-2" }, [
-              _c("thead", { staticClass: "bg-primary text-light" }, [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Role")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Created")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
-                ])
+      _c(
+        "layout",
+        { class: { unblock: !_vm.show_dialog }, attrs: { id: "boday" } },
+        [
+          _c(
+            "div",
+            { staticClass: "users-page-container mr-5 ml-5 pl-5 pr-5 mt-3" },
+            [
+              _c("div", { staticClass: "users-header" }, [
+                _c("h2", [_vm._v("Users")]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-add", on: { click: _vm.addUser } },
+                  [
+                    _c("i", { staticClass: "fas fa-plus mr-3" }),
+                    _vm._v("Add User")
+                  ]
+                )
               ]),
               _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.users, function(user) {
-                  return _c("tr", [
-                    _c("th", { attrs: { scope: "row" } }, [
-                      _vm._v(_vm._s(user.id))
-                    ]),
+              _c("table", { staticClass: "table mt-2" }, [
+                _c("thead", { staticClass: "bg-primary text-light" }, [
+                  _c("tr", [
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.name))]),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.email))]),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.role))]),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Role")]),
                     _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(_vm.formatDate(new Date(user.created_at))))
-                    ]),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Created")]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteUser(user.id)
-                            }
-                          }
-                        },
-                        [_vm._v("Delete")]
-                      )
-                    ])
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")])
                   ])
-                }),
-                0
-              )
-            ])
-          ]
-        )
-      ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.users, function(user) {
+                    return _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v(_vm._s(user.id))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(user.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(user.email))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(user.role))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.formatDate(new Date(user.created_at)))
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteUser(user.id)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ]
+          )
+        ]
+      )
     ],
     1
   )

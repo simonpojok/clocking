@@ -3,10 +3,10 @@
         <div class="card-body">
             <div class="model-header">
                 <h2>Add User</h2>
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times" v-on:click="closeDialog"></i>
             </div>
             <hr style="margin-right: -20px; margin-left: -20px;">
-            <form>
+            <form method="post" v-on:submit="handleSubmit">
                 <div class="form-group">
                     <label for="name" class="col-sm-2 col-form-label">Name:</label>
                     <input type="text" class="form-control" id="name" placeholder="Full Name">
@@ -34,8 +34,8 @@
                 <hr style="margin-right: -20px; margin-left: -20px;">
 
                 <div class="form-group row mt-2 button-container">
-                    <button type="submit" class="btn btn-default mr-5">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button class="btn btn-default mr-5" type="button" v-on:click="closeDialog">Cancel</button>
+                    <button class="btn btn-add" type="submit"><i class="fas fa-plus mr-3"></i>Add User</button>
                 </div>
             </form>
         </div>
@@ -46,6 +46,15 @@ export default {
     data () {
         return {
             dialog: false
+        }
+    },
+    methods: {
+        handleSubmit: function (even) {
+            even.preventDefault();
+            console.log(even);
+        },
+        closeDialog: function () {
+            this.$emit('close');
         }
     }
 }
