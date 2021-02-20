@@ -19,8 +19,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="user in users">
-                        <th scope="row">{{ user.id }}</th>
+                    <tr v-for="(user, index ) in users">
+                        <th scope="row">{{ index + 1}}</th>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.role }}</td>
@@ -76,8 +76,7 @@ export default {
         },
         handleClose: function () {
             this.show_dialog = false;
-            let element = document.querySelector('#boday');
-            element.enable = true;
+            this.getUsers();
         },
     },
     mounted() {

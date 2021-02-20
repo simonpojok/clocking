@@ -2,23 +2,33 @@
     <div class="card dialog-card">
         <div class="card-body">
             <div class="model-header">
-                <h2>Add User</h2>
+                <h2 class="m-1 p-1">Add User</h2>
                 <i class="fas fa-times" v-on:click="closeDialog"></i>
             </div>
             <hr style="margin-right: -20px; margin-left: -20px;">
-            <form>
-                <div class="form-group">
-                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
-                    <input v-model="name" type="text" class="form-control" id="name" placeholder="Full Name">
+            <form method="post" v-on:submit="handleSubmit">
+                <div class="form-group pt-0">
+                    <label for="name" class="col-sm-2 col-form-label pt-0">Name:</label>
+                    <input v-model="name" type="text" class="form-control"
+                           v-bind:class="{'is-invalid': errors.name != null && errors.name.length > 0}" id="name" placeholder="Full Name">
+                    <small class="text-danger form-text" v-for="error in errors.name">
+                        {{ error }}
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <input  v-model="email" type="email" class="form-control" id="email" placeholder="Email">
+                    <input  v-model="email" type="email" class="form-control" v-bind:class="{'is-invalid': errors.email != null && errors.email.length > 0}" id="email" placeholder="Email">
+                    <small class="text-danger form-text" v-for="error in errors.email">
+                        {{ error }}
+                    </small>
                 </div>
 
                 <div class="form-group">
                     <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
+                    <input v-model="password" type="password" class="form-control" v-bind:class="{'is-invalid': errors.password != null && errors.password.length > 0}" id="password" placeholder="Password">
+                    <small class="text-danger form-text" v-for="error in errors.password">
+                        {{ error }}
+                    </small>
                 </div>
                 <div class="radio-container ml-3">
                     <div class="form-check mr-5">
@@ -35,7 +45,7 @@
 
                 <div class="form-group row mt-2 button-container">
                     <button class="btn btn-default mr-5" type="button" v-on:click="closeDialog">Cancel</button>
-                    <button class="btn btn-add" type="submit" v-on:click="handleSubmit"><i class="fas fa-plus mr-3"></i>Add User</button>
+                    <button class="btn btn-add" type="submit"><i class="fas fa-plus mr-3"></i>Add User</button>
                 </div>
             </form>
         </div>
@@ -49,42 +59,51 @@ export default {
             email: '',
             name: '',
             password: '',
-            role: 'user'
+            role: 'user',
+            errors: {
+                name: [],
+                email: [],
+                password: [],
+                role: []
+            }
         }
     },
     methods: {
         handleSubmit: function (even) {
             even.preventDefault();
+            this.errors =  { name: [], email: [], password: [], role: [] };
             axios.post('/api/account/register', {
                 name: this.name,
                 email: this.email,
                 password: this.password,
                 role: this.role
             }).then(response => {
-                console.log(response, "==>")
+                this.closeDialog();
             }).catch(error => {
-                console.log(error.error, "-->");
+                // console.log(error.response.data.errors);
+                this.errors = error.response.data.errors;
+                console.log(this.errors);
             })
         },
         closeDialog: function () {
             this.$emit('close');
         },
         setUserIsAdmin: function () {
-            this.user.role = 'admin';
+            this.role = 'admin';
         },
         setUserIsUser: function () {
-            this.user.role = 'user';
-        }
+            this.role = 'user';
+        },
     }
 }
 </script>
 <style>
     .dialog-card {
-        width: 40%;
+        width: 60%;
         position: fixed;
-        top: 15%;
-        left: 30%;
-        right: 30%;
+        top: 5%;
+        left: 20%;
+        right: 20%;
         /*bottom: 20%;*/
     }
     .model-header {
