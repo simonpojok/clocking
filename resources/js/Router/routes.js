@@ -46,7 +46,9 @@ const routes = [
     {
         path: '/user/:id',
         component: EditUser,
-        props: true,
+        props: {
+            id: true
+        },
         meta: {
             requiresAuth: true,
             is_admin: true

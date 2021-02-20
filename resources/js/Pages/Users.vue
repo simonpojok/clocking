@@ -21,7 +21,9 @@
                     <tbody>
                     <tr v-for="(user, index) in users">
                         <th scope="row">{{ index + 1}}</th>
-                        <td>{{ user.name }}</td>
+                        <td>
+                            <router-link v-bind:to="getFullRoute(user.id)">{{ user.name }}</router-link>
+                        </td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.role }}</td>
                         <td>{{ formatDate(new Date(user.created_at)) }}</td>
@@ -78,6 +80,9 @@ export default {
             this.show_dialog = false;
             this.getUsers();
         },
+        getFullRoute: function (id) {
+            return "/user/" + id;
+        }
     },
     mounted() {
         this.getUsers();
