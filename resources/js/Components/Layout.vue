@@ -3,7 +3,7 @@
         <ul>
             <li class="ml-5 pl-5 mt-2 mb-2">
                 <h4 class="header">Clocking</h4>
-                <p class="company-name">{{ getUser().email }} [ {{ getUser().role }} ]</p>
+                <p class="company-name">{{ user.email }} [ {{ user.role }} ]</p>
             <li>
             <li style="float:right" class="mr-5 pr-5">
             <a id="logout" v-on:click="logout">Logout</a></li>
@@ -19,14 +19,16 @@
 </template>
 <script>
 export default {
-    methods: {
-        getUser: function () {
-            let user = JSON.parse(localStorage.getItem('user'))
-            return {
-                email: user.email,
-                role: user.role
+    data: function () {
+        return {
+            user: {
+                name: '',
+                email: '',
+                is_admin: false
             }
-        },
+        }
+    },
+    methods: {
         logout: function () {
             localStorage.clear();
             this.$router.push('/').then(response => {
@@ -34,8 +36,19 @@ export default {
             }).catch(error => {
                 console.log(error, " Route");
             })
-        }
-
+        },
+        getCurrentUser: function () {
+            axios.get('/api/users/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
+                this.user = response.data.user;
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+    },
+    created() {
+        this.getCurrentUser();
     }
 }
 </script>

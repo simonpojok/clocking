@@ -37,6 +37,7 @@ Route::middleware('auth:api') -> group(function () {
     Route::prefix('users') -> group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/status', [UserController::class, 'status']);
+        Route::get('/me', [UserController::class, 'me']);
         Route::delete('/{id}', [UserController::class, 'delete']);
         Route::get('/{id}', [UserController::class, 'user']);
         Route::put('/{id}', [UserController::class, 'update']);

@@ -5,7 +5,9 @@
                 <h2>Users</h2>
                 <div class="card mr-5" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" style="color: black" v-bind:class="{'bg-primary text-light': isAdminMode }" v-on:click="getAdminTimes">
+                        <li class="list-group-item" style="color: black"
+                            v-bind:class="{'bg-primary text-light': isAdminMode }"
+                            v-on:click="getAdminTimes">
                             <h3>Admin</h3>
                             <p>info@gmail.com</p>
                         </li>

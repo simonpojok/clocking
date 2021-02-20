@@ -88,4 +88,16 @@ class UserController extends Controller
             ]
         ];
     }
+
+    public function me(Request $request) {
+        $user = $request -> user();
+        return [
+            "user" => [
+                "email" => $user -> email,
+                "is_admin" => $user -> role == 'admin',
+                "name" => $user -> name,
+                "role" => $user -> role
+            ]
+        ];
+    }
 }
