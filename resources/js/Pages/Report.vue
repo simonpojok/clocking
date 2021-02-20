@@ -76,9 +76,11 @@ export default {
                 this.isAdminMode = true;
                 this.times = response.data;
             }).catch(error => {
-                console.log(error)
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },
@@ -91,7 +93,12 @@ export default {
                 this.times = response.data;
                 console.log(this.times);
             }).catch(error => {
-                console.log(error);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
+                }
             })
         },
         getCurrentUser: function () {
@@ -100,9 +107,11 @@ export default {
             }).then(response => {
                 this.user = response.data.user;
             }).catch(error => {
-                console.log(error)
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },

@@ -85,7 +85,12 @@ export default {
             }).then(response => {
                 this.user = response.data;
             }).catch(error => {
-                console.log(error);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
+                }
             });
         },
         handleSubmit: function (event) {
@@ -99,7 +104,12 @@ export default {
             }).catch(error => {
                 // console.log(error.response.data.errors);
                 this.errors = error.response.data.errors;
-                console.log(this.errors);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
+                }
             })
         },
         setUserIsAdmin: function () {

@@ -59,9 +59,11 @@ export default {
             }).then(response => {
                 this.users = response.data;
             }).catch(error => {
-                console.log(error.response)
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },
@@ -72,9 +74,11 @@ export default {
             }).then(response => {
                 this.getUsers();
             }).catch(error => {
-                console.log(error);
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
             this.show_delete = true;

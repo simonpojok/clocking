@@ -83,13 +83,13 @@ export default {
                 console.log(response);
                 this.closeDialog();
             }).catch(error => {
-                if(error.response.status === 401) {
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                } else if (error.response.status === 401) {
                     localStorage.clear();
                     this.$router.push('/');
                 }
-                console.log(error.response);
                 this.errors = error.response.data.errors;
-                console.log(this.errors);
             })
         },
         closeDialog: function () {

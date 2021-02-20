@@ -55,21 +55,16 @@ export default {
                     if(this.$route.params.nextUrl != null) {
                         this.$router.push(this.$route.nextUrl);
                     } else {
-                        // if(is_admin) {
-                        //     this.$router.push('dashboard');
-                        // } else {
-                        //     this.$router.push('home')
-                        // }
                         this.$router.push('home');
                     }
                 }
             }).catch(error => {
                 this.errors = error.response.data.errors;
-                console.log(this.errors);
                 if(error.response.status === 403) {
                     console.log("Forbidden")
                 } else if (error.response.status === 401) {
-
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         }

@@ -52,7 +52,12 @@ export default {
                 }).then(response => {
                     console.log(response);
                 }).catch(error => {
-                    console.log(error);
+                    if(error.response.status === 403) {
+                        console.log("Forbidden")
+                    } else if (error.response.status === 401) {
+                        localStorage.clear();
+                        this.$router.push('home');
+                    }
                 })
             } else {
                 axios.post('api/times/time-in', {
@@ -62,7 +67,12 @@ export default {
                         console.log(response);
                     }
                 }).catch(error => {
-                    console.log(error);
+                    if(error.response.status === 403) {
+                        console.log("Forbidden")
+                    } else if (error.response.status === 401) {
+                        localStorage.clear();
+                        this.$router.push('home');
+                    }
                 })
             }
         },
@@ -81,6 +91,9 @@ export default {
             }).catch(error => {
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },
@@ -92,9 +105,11 @@ export default {
                 this.times = response.data.times;
                 console.log(response.data);
             }).catch(error => {
-                console.log(error.response);
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },
@@ -105,9 +120,11 @@ export default {
             }).then(response => {
                 this.times = response.data.times;
             }).catch(error => {
-                console.log(error.response);
                 if(error.response.status === 403) {
                     console.log("Forbidden")
+                } else if (error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('home');
                 }
             })
         },
