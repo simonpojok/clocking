@@ -11,7 +11,10 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-        return Attendance::orderBy('created_at', 'DESC') -> get();
+        $time = Carbon::now();
+        return Attendance::orderBy('created_at', 'DESC')
+            -> whereDate('date', $time->toDateString())
+            -> get();
     }
 
     public function userAttendance(Request $request) {

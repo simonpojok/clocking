@@ -27,6 +27,7 @@
                         <thead>
                         <tr>
                             <th scope="col">Date</th>
+                            <th scope="col" v-if="isAdminMode">User ID</th>
                             <th scope="col">Time In</th>
                             <th scope="col">Time Out</th>
                         </tr>
@@ -34,6 +35,9 @@
                         <tbody>
                         <tr v-for="time in times" :key="time.id">
                             <th scope="row">{{ time.date }}</th>
+                            <th scope="row" v-if="isAdminMode">
+                                <router-link v-bind:to="getFullRoute(time.user_id)">{{ time.user_id }}</router-link>
+                            </th>
                             <td>{{ time.time_in }}</td>
                             <td>{{ time.time_out }}</td>
                         </tr>
@@ -55,6 +59,11 @@ export default {
             isUserMode: false,
             isAdminMode: true,
             date: window.moment().format("ddd, D/MMM/YY"),
+            user: {
+                name: '',
+                email: '',
+                is_admin: false
+            }
         }
     },
     methods: {
@@ -80,10 +89,25 @@ export default {
             }).catch(error => {
                 console.log(error);
             })
+        },
+        getCurrentUser: function () {
+            axios.get('/api/users/me', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
+                this.user = response.data.user;
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        getFullRoute: function (id) {
+            return "/user/" + id;
         }
     },
     mounted() {
         this.getAdminTimes();
+    },
+    created() {
+        this.getCurrentUser();
     }
 }
 </script>
