@@ -18,10 +18,9 @@ class AttendanceController extends Controller
         $user_id = $request -> user() -> id;
         $time = Carbon::now();
 
-        $attendance = Attendance::where('user_id', '=', $user_id)
+        return Attendance::where('user_id', '=', $user_id)
             ->whereDate('date', $time->toDateString())
             -> get();
-        return $attendance;
     }
 
 
