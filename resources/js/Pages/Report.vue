@@ -77,6 +77,9 @@ export default {
                 this.times = response.data;
             }).catch(error => {
                 console.log(error)
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
         getUserTimes: function () {
@@ -98,6 +101,9 @@ export default {
                 this.user = response.data.user;
             }).catch(error => {
                 console.log(error)
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
         getFullRoute: function (id) {

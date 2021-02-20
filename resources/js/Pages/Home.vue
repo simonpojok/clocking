@@ -79,7 +79,9 @@ export default {
                 this.times = response.data.times;
                 // console.log(response);
             }).catch(error => {
-                console.log(error.response);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
 
@@ -91,6 +93,9 @@ export default {
                 console.log(response.data);
             }).catch(error => {
                 console.log(error.response);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
 
@@ -101,6 +106,9 @@ export default {
                 this.times = response.data.times;
             }).catch(error => {
                 console.log(error.response);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
         formatTime: function () {

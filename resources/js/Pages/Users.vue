@@ -60,6 +60,9 @@ export default {
                 this.users = response.data;
             }).catch(error => {
                 console.log(error.response)
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
         },
 
@@ -70,6 +73,9 @@ export default {
                 this.getUsers();
             }).catch(error => {
                 console.log(error);
+                if(error.response.status === 403) {
+                    console.log("Forbidden")
+                }
             })
             this.show_delete = true;
         },
