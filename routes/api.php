@@ -30,17 +30,17 @@ Route::middleware('auth:api') -> group(function () {
         Route::post('/time-out', [AttendanceController::class, 'time_out']);
     });
     Route::prefix('/account') -> group(function () {
-        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/register', [AuthController::class, 'register']) ->middleware('admin');
         Route::get('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);
     });
     Route::prefix('users') -> group(function () {
-        Route::get('/', [UserController::class, 'index']);
+        Route::get('/', [UserController::class, 'index'])->middleware('admin');
         Route::get('/status', [UserController::class, 'status']);
         Route::get('/me', [UserController::class, 'me']);
         Route::delete('/{id}', [UserController::class, 'delete']);
-        Route::get('/{id}', [UserController::class, 'user']);
-        Route::put('/{id}', [UserController::class, 'update']);
-        Route::post('/create', [UserController::class, 'createUser']);
+        Route::get('/{id}', [UserController::class, 'user'])->middleware('admin');
+        Route::put('/{id}', [UserController::class, 'update'])->middleware('admin');
+        Route::post('/create', [UserController::class, 'createUser'])->middleware('admin');
     });
 });
