@@ -1,3 +1,5 @@
+import EditUser from "../Pages/EditUser";
+
 const routes = [
     {
         path: '/home',
@@ -40,7 +42,16 @@ const routes = [
             requiresAuth: true,
             is_admin: true
         }
-    }
+    },
+    {
+        path: '/user/:id',
+        component: EditUser,
+        props: true,
+        meta: {
+            requiresAuth: true,
+            is_admin: true
+        }
+    },
 ];
 
 export default routes;
