@@ -56,7 +56,7 @@ export default {
                         console.log("Forbidden")
                     } else if (error.response.status === 401) {
                         localStorage.clear();
-                        this.$router.push('home');
+                        this.$router.push('/');
                     }
                 })
             } else {
@@ -71,7 +71,7 @@ export default {
                         console.log("Forbidden")
                     } else if (error.response.status === 401) {
                         localStorage.clear();
-                        this.$router.push('home');
+                        this.$router.push('/');
                     }
                 })
             }
@@ -93,7 +93,7 @@ export default {
                     console.log("Forbidden")
                 } else if (error.response.status === 401) {
                     localStorage.clear();
-                    this.$router.push('home');
+                    this.$router.push('/');
                 }
             })
         },
@@ -109,7 +109,7 @@ export default {
                     console.log("Forbidden")
                 } else if (error.response.status === 401) {
                     localStorage.clear();
-                    this.$router.push('home');
+                    this.$router.push('/');
                 }
             })
         },
@@ -124,7 +124,7 @@ export default {
                     console.log("Forbidden")
                 } else if (error.response.status === 401) {
                     localStorage.clear();
-                    this.$router.push('home');
+                    this.$router.push('/');
                 }
             })
         },
