@@ -1,6 +1,12 @@
 <template>
     <layout>
         <div class="form-container mt-5">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="message.available">
+                {{ message.message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" @click="message.available = false">&times;</span>
+                </button>
+            </div>
             <h2 class="mb-3">Edit User</h2>
             <form method="post" v-on:submit="handleSubmit">
                 <div class="form-group pt-0">
@@ -65,6 +71,10 @@ export default {
                 name: '',
                 password: '',
                 role: '',
+            },
+            message: {
+                available: false,
+                message: "User account successfully Edited"
             }
         }
     },
@@ -85,6 +95,7 @@ export default {
                 headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
             }).then(response => {
                 this.getUser();
+                this.message.available = true;
             }).catch(error => {
                 // console.log(error.response.data.errors);
                 this.errors = error.response.data.errors;
