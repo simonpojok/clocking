@@ -10,11 +10,11 @@
                             v-if="user.is_admin"
                             v-on:click="getAdminTimes">
                             <h3>Admin</h3>
-                            <p>info@gmail.com</p>
+                            <p>{{ user.email }}</p>
                         </li>
                         <li class="list-group-item" style="color: black" v-bind:class="{'bg-primary text-light': isUserMode }" v-on:click="getUserTimes">
                             <h3>Trail Support</h3>
-                            <p>support@gmail.com</p>
+                            <p>{{ user.email }}</p>
                         </li>
                     </ul>
                 </div>
@@ -39,9 +39,14 @@
                             <th scope="row" v-if="isAdminMode">
                                 <router-link v-bind:to="getFullRoute(time.user_id)">{{ time.user_id }}</router-link>
                             </th>
-                            <td>{{ time.time_in }}</td>
-                            <td>{{ time.time_out }}</td>
+                            <td>{{ time.time_in }} Hrs</td>
+                            <td v-if="time.time_out">{{ time.time_out }} Hrs</td>
                         </tr>
+
+                        <tr v-if="times.length === 0">
+                            <th>No Records</th>
+                        </tr>
+
                         </tbody>
                     </table>
                 </div>

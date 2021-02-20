@@ -59,6 +59,7 @@ export default {
                     }
                 }
             }).catch(error => {
+                console.log(error);
                 this.errors = error.response.data.errors;
                 if(error.response.status === 403) {
                     console.log("Forbidden")
