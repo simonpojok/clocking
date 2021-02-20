@@ -54,15 +54,19 @@ export default {
     },
     methods: {
         getUsers: function () {
-            axios.get('/api/users').then(response => {
+            axios.get('/api/users', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.users = response.data;
             }).catch(error => {
-                console.log(error);
+                console.log(error.response)
             })
         },
 
         deleteUser: function (id) {
-            axios.delete('/api/users/' + this.user_id).then(response => {
+            axios.delete('/api/users/' + this.user_id, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.getUsers();
             }).catch(error => {
                 console.log(error);

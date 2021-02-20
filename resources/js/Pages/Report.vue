@@ -56,7 +56,9 @@ export default {
     },
     methods: {
         getAdminTimes: function () {
-            axios.get('/api/attendance').then(response => {
+            axios.get('/api/attendance', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.isUserMode = false;
                 this.isAdminMode = true;
                 this.times = response.data;
@@ -65,7 +67,9 @@ export default {
             })
         },
         getUserTimes: function () {
-            axios.get('/api/attendance/user-time').then(response => {
+            axios.get('/api/attendance/user-time', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.isUserMode = true;
                 this.isAdminMode = false;
                 this.times = response.data;
