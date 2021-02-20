@@ -1,6 +1,7 @@
 <template>
     <div>
         <add-user-model @close="handleClose" v-if="show_dialog" v-bind:class="{'block': show_dialog }"/>
+        <confirmation-dialog @deleteUser="deleteUser" v-if="show_delete" @cancelDelete="cancelDelete"/>
         <layout v-bind:class="{'unblock': !show_dialog}" id="boday">
             <div class="users-page-container mr-5 ml-5 pl-5 pr-5 mt-3">
                 <div class="users-header">
@@ -27,7 +28,7 @@
                         <td>{{ user.email }}</td>
                         <td>{{ user.role }}</td>
                         <td>{{ formatDate(new Date(user.created_at)) }}</td>
-                        <td><button class="btn btn-danger" v-on:click="deleteUser(user.id)">Delete</button></td>
+                        <td><button class="btn btn-danger" v-on:click="showDeleteUser(user.id)">Delete</button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -39,13 +40,16 @@
 import Layout from "../Components/Layout";
 import AddUserModel from "../Components/AddUserModel";
 import Vue from "vue";
+import ConfirmationDialog from "../Components/ConfirmationDialog";
 // moment().format('YYYY-MM-DD');
 export default {
-    components: {AddUserModel, Layout},
+    components: {ConfirmationDialog, AddUserModel, Layout},
     data: function () {
         return {
             users: [],
-            show_dialog: false
+            show_dialog: false,
+            show_delete: false,
+            user_id: 0
         }
     },
     methods: {
@@ -58,14 +62,21 @@ export default {
         },
 
         deleteUser: function (id) {
-            let confirmation = confirm("Please confirm you wish to delete this user ?");
-            if(confirmation) {
-                axios.delete('/api/users/' + id).then(response => {
-                    this.getUsers();
-                }).catch(error => {
-                    console.log(error);
-                })
-            }
+            axios.delete('/api/users/' + this.user_id).then(response => {
+                this.getUsers();
+            }).catch(error => {
+                console.log(error);
+            })
+            this.show_delete = true;
+        },
+
+        showDeleteUser: function (id) {
+            this.show_delete = true;
+            this.user_id = id;
+        },
+
+        cancelDelete: function () {
+            this.show_delete = false;
         },
 
         formatDate: function (date) {
