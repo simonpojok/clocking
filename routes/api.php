@@ -23,14 +23,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/account/login', [AuthController::class, 'login']);
 Route::middleware('auth:api') -> group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::get('/attendance', [AttendanceController::class, 'index'])->middleware('admin');
     Route::get('/attendance/user-time', [AttendanceController::class, 'userAttendance']);
     Route::prefix('/times') -> group(function () {
         Route::post('/time-in', [AttendanceController::class, 'time_in']);
         Route::post('/time-out', [AttendanceController::class, 'time_out']);
     });
     Route::prefix('/account') -> group(function () {
-        Route::post('/register', [AuthController::class, 'register']) ->middleware('admin');
+        Route::post('/register', [AuthController::class, 'register'])->middleware('admin');
         Route::get('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);
     });
@@ -38,7 +38,7 @@ Route::middleware('auth:api') -> group(function () {
         Route::get('/', [UserController::class, 'index'])->middleware('admin');
         Route::get('/status', [UserController::class, 'status']);
         Route::get('/me', [UserController::class, 'me']);
-        Route::delete('/{id}', [UserController::class, 'delete']);
+        Route::delete('/{id}', [UserController::class, 'delete'])->middleware('admin');
         Route::get('/{id}', [UserController::class, 'user'])->middleware('admin');
         Route::put('/{id}', [UserController::class, 'update'])->middleware('admin');
         Route::post('/create', [UserController::class, 'createUser'])->middleware('admin');

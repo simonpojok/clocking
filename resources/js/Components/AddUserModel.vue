@@ -77,10 +77,17 @@ export default {
                 email: this.email,
                 password: this.password,
                 role: this.role
+            }, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
             }).then(response => {
+                console.log(response);
                 this.closeDialog();
             }).catch(error => {
-                // console.log(error.response.data.errors);
+                if(error.response.status === 401) {
+                    localStorage.clear();
+                    this.$router.push('/');
+                }
+                console.log(error.response);
                 this.errors = error.response.data.errors;
                 console.log(this.errors);
             })
