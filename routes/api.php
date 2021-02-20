@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/account/login', [AuthController::class, 'login']);
 Route::middleware('auth:api') -> group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index']);
     Route::get('/attendance/user-time', [AttendanceController::class, 'userAttendance']);
@@ -30,11 +31,8 @@ Route::middleware('auth:api') -> group(function () {
     });
     Route::prefix('/account') -> group(function () {
         Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::group(['middleware' => 'auth:api'], function () {
-            Route::get('/logout', [AuthController::class, 'logout']);
-            Route::get('/user', [AuthController::class, 'user']);
-        });
+        Route::get('/logout', [AuthController::class, 'logout']);
+        Route::get('/user', [AuthController::class, 'user']);
     });
     Route::prefix('users') -> group(function () {
         Route::get('/', [UserController::class, 'index']);

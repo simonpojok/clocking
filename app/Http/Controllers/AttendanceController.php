@@ -67,12 +67,12 @@ class AttendanceController extends Controller
             ];
         }
 
-        $attendance -> time_in = $time -> toTimeString();
+        $attendance -> time_out = $time -> toTimeString();
         $attendance -> save();
         return [
             "times" => [
-                "time_in" => true,
-                "time_out" => true
+                "time_in" => $attendance -> time_in != null,
+                "time_out" => $attendance -> time_out != null
             ]
         ];
     }

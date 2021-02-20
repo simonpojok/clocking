@@ -41,31 +41,27 @@ export default {
             event.preventDefault();
             axios.post('api/account/login', this.user).then(response => {
                 console.log(response);
-                if(response.status === 250) {
-                    let user = response.data.data.user;
-                    let token = response.data.access_token;
-                    let is_admin = user.role === 'admin';
-                    user.is_admin = is_admin;
-                    console.log(token);
+                let user = response.data.data.user;
+                let token = response.data.access_token;
+                let is_admin = user.role === 'admin';
+                user.is_admin = is_admin;
+                console.log(token);
 
-                    localStorage.setItem('user', JSON.stringify(user));
-                    localStorage.setItem('jwt', token);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('jwt', token);
 
-                    if(localStorage.getItem('jwt') != null) {
-                        this.$emit('loggedIn');
-                        if(this.$route.params.nextUrl != null) {
-                            this.$router.push(this.$route.nextUrl);
-                        } else {
-                            // if(is_admin) {
-                            //     this.$router.push('dashboard');
-                            // } else {
-                            //     this.$router.push('home')
-                            // }
-                            this.$router.push('home');
-                        }
+                if(localStorage.getItem('jwt') != null) {
+                    this.$emit('loggedIn');
+                    if(this.$route.params.nextUrl != null) {
+                        this.$router.push(this.$route.nextUrl);
+                    } else {
+                        // if(is_admin) {
+                        //     this.$router.push('dashboard');
+                        // } else {
+                        //     this.$router.push('home')
+                        // }
+                        this.$router.push('home');
                     }
-                } else if (response.status === 259) {
-
                 }
             }).catch(error => {
                 this.errors = error.response.data.errors;
