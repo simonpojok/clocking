@@ -25,7 +25,7 @@ class CheckIfUserIsAdmin
                         "Only users of type admin can access this resource"
                     ]
                 ]
-            ], JsonResponse::HTTP_UNAUTHORIZED));
+            ], JsonResponse::HTTP_FORBIDDEN));
         }
         return $next($request);
     }
