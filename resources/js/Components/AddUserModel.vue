@@ -44,7 +44,7 @@
                 <hr style="margin-right: -20px; margin-left: -20px;">
 
                 <div class="form-group row mt-2 button-container">
-                    <button class="btn btn-default mr-5" type="button" v-on:click="closeDialog">Cancel</button>
+                    <button class="btn btn-default mr-5 button-default" type="button" v-on:click="closeDialog">Cancel</button>
                     <button class="btn btn-add" type="submit"><i class="fas fa-plus mr-3"></i>Add User</button>
                 </div>
             </form>
@@ -122,5 +122,10 @@ export default {
         flex-direction: row;
         justify-content: flex-end;
         width: 100%;
+    }
+
+    .button-default {
+        color: white;
+        background-color: #2d3748;
     }
 </style>

@@ -7,7 +7,7 @@
             <li>
             <li style="float:right" class="mr-5 pr-5">
             <a id="logout" v-on:click="logout">Logout</a></li>
-            <li style="float:right">
+            <li style="float:right" v-if="user.is_admin">
                 <router-link to="/users">Users</router-link>
             </li>
             <li style="float:right">
