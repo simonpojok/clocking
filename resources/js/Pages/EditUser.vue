@@ -70,7 +70,9 @@ export default {
     },
     methods: {
         getUser: function () {
-            axios.get('/api/users/' + this.id).then(response => {
+            axios.get('/api/users/' + this.id, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.user = response.data;
             }).catch(error => {
                 console.log(error);
@@ -79,7 +81,9 @@ export default {
         handleSubmit: function (event) {
             event.preventDefault();
             this.errors =  { name: [], email: [], password: [], role: [] };
-            axios.put('/api/users/' + this.id, this.user).then(response => {
+            axios.put('/api/users/' + this.id, this.user, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
                 this.getUser();
             }).catch(error => {
                 // console.log(error.response.data.errors);

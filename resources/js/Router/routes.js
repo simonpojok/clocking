@@ -32,7 +32,8 @@ const routes = [
         component: () => import('../Pages/Report.vue'),
         name: 'report',
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            is_admin: true
         }
     },
     {

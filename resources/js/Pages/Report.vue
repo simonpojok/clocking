@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="right">
-                <h2>Log for Oct, 2016</h2>
+                <h2>Log for {{ date }}</h2>
                 <div class="card">
                     <div class="card-header pt-4">
                     </div>
@@ -51,7 +51,8 @@ export default {
         return {
             times: [],
             isUserMode: false,
-            isAdminMode: true
+            isAdminMode: true,
+            date: window.moment().format("ddd, D/MMM/YY"),
         }
     },
     methods: {
