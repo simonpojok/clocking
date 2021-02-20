@@ -5,7 +5,8 @@
                 <h4 class="header">Clocking</h4>
                 <p class="company-name">{{ getUser().email }} [ {{ getUser().role }} ]</p>
             <li>
-            <li style="float:right" class="mr-5 pr-5"><a href="#about">Logout</a></li>
+            <li style="float:right" class="mr-5 pr-5">
+            <a id="logout" v-on:click="logout">Logout</a></li>
             <li style="float:right">
                 <router-link to="/users">Users</router-link>
             </li>
@@ -26,6 +27,14 @@ export default {
                 role: user.role
             }
         },
+        logout: function () {
+            localStorage.clear();
+            this.$router.push('/').then(response => {
+                console.log("Route ", response);
+            }).catch(error => {
+                console.log(error, " Route");
+            })
+        }
 
     }
 }
@@ -76,4 +85,7 @@ li a:hover:not(.active) {
 /*.active {*/
 /*    background-color: #4CAF50;*/
 /*}*/
+#logout {
+    cursor: pointer;
+}
 </style>

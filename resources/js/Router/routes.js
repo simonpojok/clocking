@@ -1,4 +1,5 @@
 import EditUser from "../Pages/EditUser";
+import Login from "../Pages/Login";
 
 const routes = [
     {
@@ -11,7 +12,7 @@ const routes = [
     },
     {
         path: '',
-        component: () => import('../Pages/Login.vue'),
+        component: Login,
         name: 'login',
         meta: {
             guest: true
