@@ -1890,14 +1890,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      user: {
+        name: '',
+        email: '',
+        is_admin: false
+      }
+    };
+  },
   methods: {
-    getUser: function getUser() {
-      var user = JSON.parse(localStorage.getItem('user'));
-      return {
-        email: user.email,
-        role: user.role
-      };
-    },
     logout: function logout() {
       localStorage.clear();
       this.$router.push('/').then(function (response) {
@@ -1905,7 +1907,32 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error, " Route");
       });
+    },
+    getCurrentUser: function getCurrentUser() {
+      var _this = this;
+
+      axios.get('/api/users/me', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
+        _this.user = response.data.user;
+      })["catch"](function (error) {
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('home');
+        }
+      });
+    },
+    load_home: function load_home() {
+      this.$router.push('/home');
     }
+  },
+  created: function created() {
+    this.getCurrentUser();
   }
 });
 
@@ -1923,6 +1950,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Components_Layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Components/Layout */ "./resources/js/Components/Layout.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1991,6 +2024,10 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         password: '',
         role: ''
+      },
+      message: {
+        available: false,
+        message: "User account successfully Edited"
       }
     };
   },
@@ -1998,10 +2035,20 @@ __webpack_require__.r(__webpack_exports__);
     getUser: function getUser() {
       var _this = this;
 
-      axios.get('/api/users/' + this.id).then(function (response) {
+      axios.get('/api/users/' + this.id, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this.user = response.data;
       })["catch"](function (error) {
-        console.log(error);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('home');
+        }
       });
     },
     handleSubmit: function handleSubmit(event) {
@@ -2014,12 +2061,25 @@ __webpack_require__.r(__webpack_exports__);
         password: [],
         role: []
       };
-      axios.put('/api/users/' + this.id, this.user).then(function (response) {
+      axios.put('/api/users/' + this.id, this.user, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this2.getUser();
+
+        _this2.message.available = true;
       })["catch"](function (error) {
         // console.log(error.response.data.errors);
         _this2.errors = error.response.data.errors;
-        console.log(_this2.errors);
+
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this2.$router.push('home');
+        }
       });
     },
     setUserIsAdmin: function setUserIsAdmin() {
@@ -2093,34 +2153,34 @@ __webpack_require__.r(__webpack_exports__);
       event.preventDefault();
       axios.post('api/account/login', this.user).then(function (response) {
         console.log(response);
+        var user = response.data.data.user;
+        var token = response.data.access_token;
+        var is_admin = user.role === 'admin';
+        user.is_admin = is_admin;
+        console.log(token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('jwt', token);
 
-        if (response.status === 250) {
-          var user = response.data.data.user;
-          var token = response.data.access_token;
-          var is_admin = user.role === 'admin';
-          user.is_admin = is_admin;
-          console.log(token);
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('jwt', token);
+        if (localStorage.getItem('jwt') != null) {
+          _this.$emit('loggedIn');
 
-          if (localStorage.getItem('jwt') != null) {
-            _this.$emit('loggedIn');
-
-            if (_this.$route.params.nextUrl != null) {
-              _this.$router.push(_this.$route.nextUrl);
-            } else {
-              // if(is_admin) {
-              //     this.$router.push('dashboard');
-              // } else {
-              //     this.$router.push('home')
-              // }
-              _this.$router.push('home');
-            }
+          if (_this.$route.params.nextUrl != null) {
+            _this.$router.push(_this.$route.nextUrl);
+          } else {
+            _this.$router.push('home');
           }
-        } else if (response.status === 259) {}
+        }
       })["catch"](function (error) {
+        console.log(error);
         _this.errors = error.response.data.errors;
-        console.log(_this.errors);
+
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('home');
+        }
       });
     }
   }
@@ -2528,7 +2588,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.header {\n    margin: 0;\n    padding: 0;\n}\n.company-name {\n    margin: 0;\n    padding: 0;\n}\nul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    overflow: hidden;\n    background-color: #18bb9b;\n}\nli {\n    float: left;\n    color: white;\n    /*border-right: 1px solid #bbb;*/\n}\nli:last-child {\n    border-right: none;\n}\nli a {\n    display: block;\n    color: white;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n}\nli a:hover:not(.active) {\n    background-color: #18bb9b;\n    text-decoration: none;\n    color: white;\n}\n\n/*.active {*/\n/*    background-color: #4CAF50;*/\n/*}*/\n#logout {\n    cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.header {\n    margin: 0;\n    padding: 0;\n}\n.company-name {\n    margin: 0;\n    padding: 0;\n}\nul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    overflow: hidden;\n    background-color: #18bb9b;\n}\nli {\n    float: left;\n    color: white;\n    /*border-right: 1px solid #bbb;*/\n}\nli:last-child {\n    border-right: none;\n}\nli a {\n    display: block;\n    color: white;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n}\nli a:hover:not(.active) {\n    background-color: #18bb9b;\n    text-decoration: none;\n    color: white;\n}\n\n/*.active {*/\n/*    background-color: #4CAF50;*/\n/*}*/\n#logout {\n    cursor: pointer;\n}\n.home-link {\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -42241,15 +42301,16 @@ var render = function() {
     "div",
     [
       _c("ul", [
-        _c("li", { staticClass: "ml-5 pl-5 mt-2 mb-2" }, [
-          _c("h4", { staticClass: "header" }, [_vm._v("Clocking")]),
+        _c("li", { staticClass: "ml-5 pt-2 mb-2" }, [
+          _c(
+            "h4",
+            { staticClass: "header home-link", on: { click: _vm.load_home } },
+            [_vm._v("Clocking")]
+          ),
           _vm._v(" "),
           _c("p", { staticClass: "company-name" }, [
             _vm._v(
-              _vm._s(_vm.getUser().email) +
-                " [ " +
-                _vm._s(_vm.getUser().role) +
-                " ]"
+              _vm._s(_vm.user.email) + " [ " + _vm._s(_vm.user.role) + " ]"
             )
           ])
         ]),
@@ -42264,12 +42325,18 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c(
-          "li",
-          { staticStyle: { float: "right" } },
-          [_c("router-link", { attrs: { to: "/users" } }, [_vm._v("Users")])],
-          1
-        ),
+        _vm.user.is_admin
+          ? _c(
+              "li",
+              { staticStyle: { float: "right" } },
+              [
+                _c("router-link", { attrs: { to: "/users" } }, [
+                  _vm._v("Users")
+                ])
+              ],
+              1
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "li",
@@ -42309,6 +42376,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("layout", [
     _c("div", { staticClass: "form-container mt-5" }, [
+      _vm.message.available
+        ? _c(
+            "div",
+            {
+              staticClass: "alert alert-warning alert-dismissible fade show",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.message.message) +
+                  "\n            "
+              ),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "alert",
+                    "aria-label": "Close"
+                  }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      attrs: { "aria-hidden": "true" },
+                      on: {
+                        click: function($event) {
+                          _vm.message.available = false
+                        }
+                      }
+                    },
+                    [_vm._v("×")]
+                  )
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c("h2", { staticClass: "mb-3" }, [_vm._v("Edit User")]),
       _vm._v(" "),
       _c(

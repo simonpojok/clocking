@@ -96,12 +96,24 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         password: this.password,
         role: this.role
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
       }).then(function (response) {
+        console.log(response);
+
         _this.closeDialog();
       })["catch"](function (error) {
-        // console.log(error.response.data.errors);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('/');
+        }
+
         _this.errors = error.response.data.errors;
-        console.log(_this.errors);
       });
     },
     closeDialog: function closeDialog() {
@@ -226,19 +238,39 @@ __webpack_require__.r(__webpack_exports__);
     getUsers: function getUsers() {
       var _this = this;
 
-      axios.get('/api/users').then(function (response) {
+      axios.get('/api/users', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this.users = response.data;
       })["catch"](function (error) {
-        console.log(error);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('home');
+        }
       });
     },
     deleteUser: function deleteUser(id) {
       var _this2 = this;
 
-      axios["delete"]('/api/users/' + this.user_id).then(function (response) {
+      axios["delete"]('/api/users/' + this.user_id, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this2.getUsers();
       })["catch"](function (error) {
-        console.log(error);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this2.$router.push('home');
+        }
       });
       this.show_delete = true;
     },
@@ -291,7 +323,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 60%;\n    position: fixed;\n    top: 5%;\n    left: 20%;\n    right: 20%;\n    /*bottom: 20%;*/\n}\n.model-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n.radio-container {\n    display: flex;\n    flex-direction: row;\n}\n.button-container {\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n    width: 100%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dialog-card {\n    width: 60%;\n    position: fixed;\n    top: 5%;\n    left: 20%;\n    right: 20%;\n    /*bottom: 20%;*/\n}\n.model-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n.radio-container {\n    display: flex;\n    flex-direction: row;\n}\n.button-container {\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n    width: 100%;\n}\n.button-default {\n    color: white;\n    background-color: #2d3748;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -939,7 +971,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn btn-default mr-5",
+                staticClass: "btn btn-default mr-5 button-default",
                 attrs: { type: "button" },
                 on: { click: _vm.closeDialog }
               },

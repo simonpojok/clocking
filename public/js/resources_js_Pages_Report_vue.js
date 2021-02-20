@@ -56,6 +56,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -65,36 +77,91 @@ __webpack_require__.r(__webpack_exports__);
     return {
       times: [],
       isUserMode: false,
-      isAdminMode: true
+      isAdminMode: true,
+      date: window.moment().format("ddd, D/MMM/YY"),
+      user: {
+        name: '',
+        email: '',
+        is_admin: false
+      }
     };
   },
   methods: {
     getAdminTimes: function getAdminTimes() {
       var _this = this;
 
-      axios.get('/api/attendance').then(function (response) {
+      axios.get('/api/attendance', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this.isUserMode = false;
         _this.isAdminMode = true;
         _this.times = response.data;
       })["catch"](function (error) {
-        console.log(error);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this.$router.push('home');
+        }
       });
     },
     getUserTimes: function getUserTimes() {
       var _this2 = this;
 
-      axios.get('/api/attendance/user-time').then(function (response) {
+      axios.get('/api/attendance/user-time', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
         _this2.isUserMode = true;
         _this2.isAdminMode = false;
         _this2.times = response.data;
         console.log(_this2.times);
       })["catch"](function (error) {
-        console.log(error);
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this2.$router.push('home');
+        }
       });
+    },
+    getCurrentUser: function getCurrentUser() {
+      var _this3 = this;
+
+      axios.get('/api/users/me', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
+        _this3.user = response.data.user;
+      })["catch"](function (error) {
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this3.$router.push('home');
+        }
+      });
+    },
+    getFullRoute: function getFullRoute(id) {
+      return "/user/" + id;
     }
   },
   mounted: function mounted() {
-    this.getAdminTimes();
+    if (this.user.is_admin) {
+      this.getAdminTimes();
+    } else {
+      this.getUserTimes();
+    }
+  },
+  created: function created() {
+    this.getCurrentUser();
   }
 });
 
@@ -267,20 +334,22 @@ var render = function() {
           { staticClass: "card mr-5", staticStyle: { width: "18rem" } },
           [
             _c("ul", { staticClass: "list-group list-group-flush" }, [
-              _c(
-                "li",
-                {
-                  staticClass: "list-group-item",
-                  class: { "bg-primary text-light": _vm.isAdminMode },
-                  staticStyle: { color: "black" },
-                  on: { click: _vm.getAdminTimes }
-                },
-                [
-                  _c("h3", [_vm._v("Admin")]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("info@gmail.com")])
-                ]
-              ),
+              _vm.user.is_admin
+                ? _c(
+                    "li",
+                    {
+                      staticClass: "list-group-item",
+                      class: { "bg-primary text-light": _vm.isAdminMode },
+                      staticStyle: { color: "black" },
+                      on: { click: _vm.getAdminTimes }
+                    },
+                    [
+                      _c("h3", [_vm._v("Admin")]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.user.email))])
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "li",
@@ -293,7 +362,7 @@ var render = function() {
                 [
                   _c("h3", [_vm._v("Trail Support")]),
                   _vm._v(" "),
-                  _c("p", [_vm._v("support@gmail.com")])
+                  _c("p", [_vm._v(_vm._s(_vm.user.email))])
                 ]
               )
             ])
@@ -302,7 +371,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "right" }, [
-        _c("h2", [_vm._v("Log for Oct, 2016")]),
+        _c("h2", [_vm._v("Log for " + _vm._s(_vm.date))]),
         _vm._v(" "),
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header pt-4" }),
@@ -312,6 +381,10 @@ var render = function() {
               _c("tr", [
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
                 _vm._v(" "),
+                _vm.isAdminMode
+                  ? _c("th", { attrs: { scope: "col" } }, [_vm._v("User ID")])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("Time In")]),
                 _vm._v(" "),
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("Time Out")])
@@ -320,18 +393,41 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.times, function(time) {
-                return _c("tr", { key: time.id }, [
-                  _c("th", { attrs: { scope: "row" } }, [
-                    _vm._v(_vm._s(time.date))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(time.time_in))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(time.time_out))])
-                ])
-              }),
-              0
+              [
+                _vm._l(_vm.times, function(time) {
+                  return _c("tr", { key: time.id }, [
+                    _c("th", { attrs: { scope: "row" } }, [
+                      _vm._v(_vm._s(time.date))
+                    ]),
+                    _vm._v(" "),
+                    _vm.isAdminMode
+                      ? _c(
+                          "th",
+                          { attrs: { scope: "row" } },
+                          [
+                            _c(
+                              "router-link",
+                              { attrs: { to: _vm.getFullRoute(time.user_id) } },
+                              [_vm._v(_vm._s(time.user_id))]
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(time.time_in) + " Hrs")]),
+                    _vm._v(" "),
+                    time.time_out
+                      ? _c("td", [_vm._v(_vm._s(time.time_out) + " Hrs")])
+                      : _vm._e()
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.times.length === 0
+                  ? _c("tr", [_c("th", [_vm._v("No Records")])])
+                  : _vm._e()
+              ],
+              2
             )
           ])
         ])

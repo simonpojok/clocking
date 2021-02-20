@@ -1,0 +1,41 @@
+Requirements.
+Install php 7.4 and above
+Install Composer and this root folder with phpstorm, vscode or any editor and termination
+1. Installation
+    1.
+    2. Install PHP dependencies:
+        composer install
+    3. Install NPM dependencies:
+        npm ci
+    4. Build assets:
+        npm run dev
+    5. Setup configuration:
+        cp .env.example .env
+    6. Generate application key:
+        php artisan key:generate
+    7. Update Database configurations on the .env file
+        DB_CONNECTION=mysql
+        DB_HOST=update_database_host
+        DB_PORT=update_database_port
+        DB_DATABASE=update_database_name
+        DB_USERNAME=update_database_username
+        DB_PASSWORD=update_password
+    8. Run database migrations:
+        php artisan migrate
+    9. Run database seeder:
+        php artisan db:seed
+    10. Install Passport Keys:
+        php artisan passport:install --force
+    11. Run the dev server (the output will give the address):
+        php artisan serve
+    11. You're ready to go! Visit Ping CRM in your browser, and login with:
+        email: info@trailanalytics.com
+        password: admin
+
+2. Recommendations
+1. This application is not mobile first and when run mobile phone, the UI may not look clean
+and usage. I would recommend to make it mobile responsible by adding brake points.
+2. The application also need little animations to guide users as the navigate through the application
+because it offers good user feedback.
+3. The application can as well be turned into Progressive Web App by making users work online and next time
+when they get internet connectivity they data can be sync on to the server.

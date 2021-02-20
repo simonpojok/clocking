@@ -23,10 +23,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {
     this.nowTimes();
+    this.getUserStatus();
   },
   // Mount completion
   mounted: function mounted() {
@@ -37,19 +39,26 @@ __webpack_require__.r(__webpack_exports__);
       time: window.moment().format('h:mm'),
       date: window.moment().format("ddd, D/MMM/YY"),
       value_time: 0,
-      nowTime: 0
+      nowTime: 0,
+      times: {
+        time_in: false,
+        time_out: false
+      }
     };
   },
   methods: {
     get_status: function get_status() {
       var user = JSON.parse(localStorage.getItem('user'));
+      console.log(user);
       user.is_timed_in = true;
-      return user.is_timed_in;
+      return true;
     },
     get_label: function get_label() {
-      return this.get_status() !== true ? 'Time In' : 'Time Out';
+      return this.get_status() ? 'Time In' : 'Time Out';
     },
     time_in: function time_in() {
+      var _this = this;
+
       var user = JSON.parse(localStorage.getItem('user'));
 
       if (this.get_status()) {
@@ -58,7 +67,13 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (response) {
           console.log(response);
         })["catch"](function (error) {
-          console.log(error);
+          if (error.response.status === 403) {
+            console.log("Forbidden");
+          } else if (error.response.status === 401) {
+            localStorage.clear();
+
+            _this.$router.push('/');
+          }
         });
       } else {
         axios.post('api/times/time-in', {
@@ -68,15 +83,90 @@ __webpack_require__.r(__webpack_exports__);
             console.log(response);
           }
         })["catch"](function (error) {
-          console.log(error);
+          if (error.response.status === 403) {
+            console.log("Forbidden");
+          } else if (error.response.status === 401) {
+            localStorage.clear();
+
+            _this.$router.push('/');
+          }
         });
       }
     },
     // timer function
     nowTimes: function nowTimes() {
-      this.nowTime = window.moment().format('h:mm');
+      this.nowTime = window.moment().format('HH:mm');
       this.date = window.moment().format("ddd, D/MMM/YY");
       setInterval(this.nowTimes, 1000);
+    },
+    time_in_user: function time_in_user() {
+      var _this2 = this;
+
+      axios.post('api/times/time-in', {}, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
+        _this2.times = response.data.times; // console.log(response);
+      })["catch"](function (error) {
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this2.$router.push('/');
+        }
+      });
+    },
+    time_out_user: function time_out_user() {
+      var _this3 = this;
+
+      axios.post('api/times/time-out', {}, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
+        _this3.times = response.data.times;
+        console.log(response.data);
+      })["catch"](function (error) {
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this3.$router.push('/');
+        }
+      });
+    },
+    getUserStatus: function getUserStatus() {
+      var _this4 = this;
+
+      axios.get('api/users/status', {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('jwt'))
+        }
+      }).then(function (response) {
+        _this4.times = response.data.times;
+      })["catch"](function (error) {
+        if (error.response.status === 403) {
+          console.log("Forbidden");
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+
+          _this4.$router.push('/');
+        }
+      });
+    },
+    formatTime: function formatTime() {
+      var date = new Date();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      return hours + ':' + minutes + ' ' + ampm;
     }
   },
   components: {
@@ -249,18 +339,26 @@ var render = function() {
       _vm._v(" "),
       _c("h4", { staticClass: "my-3" }, [_vm._v(_vm._s(_vm.date))]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          class: {
-            btn: true,
-            "timed-in": _vm.get_status(),
-            time: !_vm.get_status()
-          },
-          on: { click: _vm.time_in }
-        },
-        [_vm._v("\n            " + _vm._s(_vm.get_label()) + "\n        ")]
-      )
+      _c("div", [
+        !_vm.times.time_in
+          ? _c(
+              "button",
+              { staticClass: "btn time", on: { click: _vm.time_in_user } },
+              [_vm._v("Time In")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.times.time_out && _vm.times.time_in
+          ? _c(
+              "button",
+              {
+                staticClass: "btn bg-danger",
+                on: { click: _vm.time_out_user }
+              },
+              [_vm._v("Time Out")]
+            )
+          : _vm._e()
+      ])
     ])
   ])
 }
