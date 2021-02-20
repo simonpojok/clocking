@@ -5,7 +5,7 @@
             <form method="post" v-on:submit="handleSubmit">
                 <div class="form-group pt-0">
                     <label for="name" class="col-sm-2 col-form-label pt-0">Name:</label>
-                    <input v-model="name" type="text" class="form-control"
+                    <input v-model="user.name" type="text" class="form-control"
                            v-bind:class="{'is-invalid': errors.name != null && errors.name.length > 0}" id="name" placeholder="Full Name">
                     <small class="text-danger form-text" v-for="error in errors.name">
                         {{ error }}
@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <input  v-model="email" type="email" class="form-control" v-bind:class="{'is-invalid': errors.email != null && errors.email.length > 0}" id="email" placeholder="Email">
+                    <input  v-model="user.email" type="email" class="form-control" v-bind:class="{'is-invalid': errors.email != null && errors.email.length > 0}" id="email" placeholder="Email">
                     <small class="text-danger form-text" v-for="error in errors.email">
                         {{ error }}
                     </small>
@@ -21,18 +21,20 @@
 
                 <div class="form-group">
                     <label for="password" class="col-sm-2 col-form-label">Password</label>
-                    <input v-model="password" type="password" class="form-control" v-bind:class="{'is-invalid': errors.password != null && errors.password.length > 0}" id="password" placeholder="Password">
+                    <input v-model="user.password" type="password" class="form-control" v-bind:class="{'is-invalid': errors.password != null && errors.password.length > 0}" id="password" placeholder="Password">
                     <small class="text-danger form-text" v-for="error in errors.password">
                         {{ error }}
                     </small>
                 </div>
                 <div class="radio-container ml-3">
                     <div class="form-check mr-5">
-                        <input class="form-check-input" type="radio" name="admin" id="admin" value="admin" v-on:click="setUserIsAdmin">
+                        <input class="form-check-input" type="radio" name="admin" id="admin"
+                               v-bind:checked="user.role === 'admin'"
+                               value="admin" v-on:click="setUserIsAdmin">
                         <label class="form-check-label" for="admin">Admin</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="admin" id="user" value="user" checked v-on:click="setUserIsUser">
+                        <input class="form-check-input" type="radio" name="admin" id="user" value="user" v-bind:checked="user.role === 'user'" v-on:click="setUserIsUser">
                         <label class="form-check-label" for="user">User</label>
                     </div>
                 </div>
@@ -51,37 +53,52 @@ export default {
     data: function () {
         return {
             id: 0,
-            email: '',
-            name: '',
-            password: '',
-            role: 'user',
             errors: {
                 name: [],
                 email: [],
                 password: [],
                 role: []
+            },
+            user: {
+                id: 0,
+                email: '',
+                name: '',
+                password: '',
+                role: '',
             }
         }
     },
     methods: {
         getUser: function () {
-            let id = this.$router;
+            axios.get('/api/users/' + this.id).then(response => {
+                this.user = response.data;
+            }).catch(error => {
+                console.log(error);
+            });
         },
-        handleSubmit: function () {
-
+        handleSubmit: function (event) {
+            event.preventDefault();
+            this.errors =  { name: [], email: [], password: [], role: [] };
+            axios.put('/api/users/' + this.id, this.user).then(response => {
+                this.getUser();
+            }).catch(error => {
+                // console.log(error.response.data.errors);
+                this.errors = error.response.data.errors;
+                console.log(this.errors);
+            })
         },
         setUserIsAdmin: function () {
-            this.role = 'admin';
+            this.user.role = 'admin';
         },
         setUserIsUser: function () {
-            this.role = 'user';
+            this.user.role = 'user';
         },
     },
     mounted() {
-        this.getUser();
     },
     created() {
         this.id = this.$route.params.id;
+        this.getUser();
     }
 }
 </script>
