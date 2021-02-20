@@ -5,13 +5,14 @@
             <h4 class="my-3">{{ date }}</h4>
             <div>
                 <button class="btn time" @click="time_in_user" v-if="!times.time_in">Time In</button>
-                <button class="btn bg-danger" @click="time_out_user" v-if="!times.time_out">Time Out</button>
+                <button class="btn bg-danger" @click="time_out_user" v-if="!times.time_out && times.time_in">Time Out</button>
             </div>
         </div>
     </layout>
 </template>
 <script>
 import Layout from "../Components/Layout";
+
 export default {
     created() {
         this.nowTimes();
@@ -67,7 +68,7 @@ export default {
         },
         // timer function
         nowTimes(){
-            this.nowTime = window.moment().format('h:mm');
+            this.nowTime = window.moment().format('HH:mm');
             this.date = window.moment().format("ddd, D/MMM/YY");
             setInterval(this.nowTimes,1000);
         },
@@ -101,6 +102,16 @@ export default {
             }).catch(error => {
                 console.log(error.response);
             })
+        },
+        formatTime: function () {
+            const date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            const ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            return hours + ':' + minutes + ' ' + ampm;
         }
     },
     components: {Layout}

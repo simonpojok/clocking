@@ -33,7 +33,6 @@ const routes = [
         name: 'report',
         meta: {
             requiresAuth: true,
-            is_admin: true
         }
     },
     {

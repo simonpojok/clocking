@@ -7,6 +7,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="color: black"
                             v-bind:class="{'bg-primary text-light': isAdminMode }"
+                            v-if="user.is_admin"
                             v-on:click="getAdminTimes">
                             <h3>Admin</h3>
                             <p>info@gmail.com</p>
@@ -104,7 +105,11 @@ export default {
         }
     },
     mounted() {
-        this.getAdminTimes();
+        if(this.user.is_admin) {
+            this.getAdminTimes();
+        } else {
+            this.getUserTimes();
+        }
     },
     created() {
         this.getCurrentUser();

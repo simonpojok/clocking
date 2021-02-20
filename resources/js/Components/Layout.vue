@@ -1,8 +1,8 @@
 <template>
     <div>
         <ul>
-            <li class="ml-5 pl-5 mt-2 mb-2">
-                <h4 class="header">Clocking</h4>
+            <li class="ml-5 pt-2 mb-2">
+                <h4 class="header home-link" @click="load_home">Clocking</h4>
                 <p class="company-name">{{ user.email }} [ {{ user.role }} ]</p>
             <li>
             <li style="float:right" class="mr-5 pr-5">
@@ -46,6 +46,9 @@ export default {
                 console.log(error)
             })
         },
+        load_home: function () {
+            this.$router.push('/home')
+        }
     },
     created() {
         this.getCurrentUser();
@@ -99,6 +102,10 @@ li a:hover:not(.active) {
 /*    background-color: #4CAF50;*/
 /*}*/
 #logout {
+    cursor: pointer;
+}
+
+.home-link {
     cursor: pointer;
 }
 </style>
