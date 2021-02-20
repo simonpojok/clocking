@@ -21,24 +21,27 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::get('/attendance/user-time', [AttendanceController::class, 'userAttendance']);
-Route::prefix('/times') -> group(function () {
-    Route::post('/time-in', [AttendanceController::class, 'time_in']);
-    Route::post('/time-out', [AttendanceController::class, 'time_out']);
-});
-Route::prefix('/account') -> group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('/logout', [AuthController::class, 'logout']);
-        Route::get('/user', [AuthController::class, 'user']);
+Route::middleware('auth:api') -> group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::get('/attendance/user-time', [AttendanceController::class, 'userAttendance']);
+    Route::prefix('/times') -> group(function () {
+        Route::post('/time-in', [AttendanceController::class, 'time_in']);
+        Route::post('/time-out', [AttendanceController::class, 'time_out']);
     });
-});
-Route::prefix('users') -> group(function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::delete('/{id}', [UserController::class, 'delete']);
-    Route::get('/{id}', [UserController::class, 'user']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::post('/create', [UserController::class, 'createUser']);
+    Route::prefix('/account') -> group(function () {
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::get('/logout', [AuthController::class, 'logout']);
+            Route::get('/user', [AuthController::class, 'user']);
+        });
+    });
+    Route::prefix('users') -> group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/status', [UserController::class, 'status']);
+        Route::delete('/{id}', [UserController::class, 'delete']);
+        Route::get('/{id}', [UserController::class, 'user']);
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::post('/create', [UserController::class, 'createUser']);
+    });
 });

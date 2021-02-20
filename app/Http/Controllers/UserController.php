@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Attendance;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isEmpty;
 
 class UserController extends Controller
 {
@@ -68,5 +71,21 @@ class UserController extends Controller
                 'user' => $user
             ]
         ], 201);
+    }
+
+    public function status(Request $request) {
+        $user_id = $request -> user_id;
+        $time = Carbon::now();
+
+        $attendance = Attendance::where('user_id', '=', $request -> user() -> id)
+            ->whereDate('date', $time->toDateString())
+            -> get() -> first();
+
+        return [
+            "times" => [
+                "time_in" => $attendance -> time_in != null,
+                "time_out" => $attendance -> time_out != null
+            ]
+        ];
     }
 }

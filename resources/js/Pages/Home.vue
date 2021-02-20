@@ -3,9 +3,10 @@
         <div class="main-container-content">
             <h2>{{ nowTime }} Hrs</h2>
             <h4 class="my-3">{{ date }}</h4>
-            <button v-bind:class="{'btn':true, 'timed-in':get_status(), 'time': !get_status() }" @click="time_in">
-                {{ get_label() }}
-            </button>
+            <div>
+                <button class="btn time" @click="time_in_user" v-if="!times.time_in">Time In</button>
+                <button class="btn bg-danger" @click="time_out_user" v-if="!times.time_out">Time Out</button>
+            </div>
         </div>
     </layout>
 </template>
@@ -14,6 +15,7 @@ import Layout from "../Components/Layout";
 export default {
     created() {
         this.nowTimes();
+        this.getUserStatus()
     },
     // Mount completion
     mounted(){
@@ -24,17 +26,22 @@ export default {
             time: window.moment().format('h:mm'),
             date: window.moment().format("ddd, D/MMM/YY"),
             value_time: 0,
-            nowTime: 0
+            nowTime: 0,
+            times: {
+                time_in: false,
+                time_out: false
+            }
         }
     },
     methods: {
         get_status: function () {
             let user = JSON.parse(localStorage.getItem('user'));
+            console.log(user);
             user.is_timed_in = true;
-            return user.is_timed_in;
+            return true
         },
         get_label: function () {
-            return this.get_status() !== true ? 'Time In' : 'Time Out'
+            return this.get_status() ? 'Time In' : 'Time Out'
         },
         time_in: function () {
             let user = JSON.parse(localStorage.getItem('user'));
@@ -64,6 +71,37 @@ export default {
             this.date = window.moment().format("ddd, D/MMM/YY");
             setInterval(this.nowTimes,1000);
         },
+        time_in_user() {
+            axios.post('api/times/time-in', {}, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
+                this.times = response.data.times;
+                // console.log(response);
+            }).catch(error => {
+                console.log(error.response);
+            })
+        },
+
+        time_out_user: function () {
+            axios.post('api/times/time-out', {}, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
+                this.times = response.data.times;
+                // console.log(response);
+            }).catch(error => {
+                console.log(error.response);
+            })
+        },
+
+        getUserStatus: function () {
+            axios.get('api/users/status', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+            }).then(response => {
+                this.times = response.data.times;
+            }).catch(error => {
+                console.log(error.response);
+            })
+        }
     },
     components: {Layout}
 }

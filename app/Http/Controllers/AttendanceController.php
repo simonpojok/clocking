@@ -20,8 +20,8 @@ class AttendanceController extends Controller
 
 
 
-    public function time_in(TimeRequest $request) {
-        $user_id = $request -> user_id;
+    public function time_in(Request $request) {
+        $user_id = $request -> user() -> id;
         $time = Carbon::now();
 
         $attendance = Attendance::where('user_id', '=', $user_id)
@@ -34,49 +34,40 @@ class AttendanceController extends Controller
             $attendance -> time_in = $time -> toTimeString();
             $attendance -> date = $time -> toDateString();
             $attendance -> save();
-            return response([
-                "complete" => true,
-                "message"=> "Clocked In Successfully",
-                "attendance" => $attendance
-            ], 250);
         }
-//        return "Already Attended";
-        return response([
-            "complete" => false,
-            "message" => "Already Clocked In",
-            "attendance" => null
-        ], 260);
+
+        return [
+            "times" => [
+                "time_in" => true,
+                "time_out" => false
+            ]
+        ];
     }
 
-    public function time_out(TimeRequest $request) {
-        $user_id = $request -> user_id;
+    public function time_out(Request $request) {
+        $user_id = $request -> user() -> id;
         $time = Carbon::now();
 
         $attendance = Attendance::where('user_id', '=', $user_id)
             ->whereDate('date', $time->toDateString())
-            -> first();
+            -> get() -> first();
 
         if($attendance == null) {
-            return response([
-                "complete" => false,
-                "message" => "No Clock In Record Found",
-                "attendance" => null
-            ], 260);
+            return [
+                "times" => [
+                    "time_in" => false,
+                    "time_out" => false
+                ]
+            ];
         }
 
-        if($attendance -> time_out == null) {
-            $attendance -> time_out = $time -> toTimeString();
-            $attendance -> save();
-            return response([
-                "complete" => true,
-                "message"=> "Clocked Out Successfully",
-                "attendance" => $attendance
-            ], 250);
-        }
-        return response([
-            "complete" => true,
-            "message"=> "Clocked Out already",
-            "attendance" => $attendance
-        ], 240);
+        $attendance -> time_in = $time -> toTimeString();
+        $attendance -> save();
+        return [
+            "times" => [
+                "time_in" => true,
+                "time_out" => true
+            ]
+        ];
     }
 }
