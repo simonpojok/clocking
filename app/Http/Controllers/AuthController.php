@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -37,10 +39,12 @@ class AuthController extends Controller
         ];
 
         if(!auth() -> attempt($login_data)) {
-            return response([
-                'complete' => false,
-                'message' => 'Invalid Credentials'
-            ], 259);
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "email" => ["Email and Password doesn't match"],
+                    "password" => ["Email and Password doesn't match"]
+                ]
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
         }
 
         $access_token = auth() -> user() -> createToken('authToken') -> accessToken;
