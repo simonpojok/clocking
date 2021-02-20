@@ -25,6 +25,7 @@ class UserFactory extends Factory
         return [
             'name' => 'admin',
             'email' => 'info@trailanalytics.com',
+            'role' => 'admin',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'), // password
             'remember_token' => Str::random(10),
