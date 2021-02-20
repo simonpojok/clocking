@@ -58,11 +58,14 @@ export default {
         },
 
         deleteUser: function (id) {
-            axios.delete('/api/users/' + id).then(response => {
-                this.getUsers();
-            }).catch(error => {
-                console.log(error);
-            })
+            let confirmation = confirm("Please confirm you wish to delete this user ?");
+            if(confirmation) {
+                axios.delete('/api/users/' + id).then(response => {
+                    this.getUsers();
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
         },
 
         formatDate: function (date) {
